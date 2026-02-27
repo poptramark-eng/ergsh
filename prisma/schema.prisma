@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+model Schools {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  email    String     @unique
+  phone    Int
+  motto    String
+  vision   String
+  students Students[]
+  teachers Teachers[]
+}
+
+model Teachers {
+  id        Int      @id @default(autoincrement())
+  name      String
+  gender    String
+  email     String
+  phone     Int
+  schoolId  Int
+  createdAt DateTime @default(now())
+  school    Schools  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+}
+
+model Students {
+  id        Int       @id @default(autoincrement())
+  name      String
+  gender    String
+  dob       DateTime
+  schoolId  Int
+  grade     String
+  createdAt DateTime  @default(now())
+  results   Results[]
+  school    Schools   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+}
+
+model Subjects {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  results   Results[]
+}
+
+model Exams {
+  id      Int       @id @default(autoincrement())
+  exam    String    @unique
+  term    String
+  year    DateTime  @default(now())
+  results Results[]
+}
+
+model Results {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  subjectId Int
+  examId    Int
+  score     Int
+  exam      Exams    @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subject   Subjects @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+}
