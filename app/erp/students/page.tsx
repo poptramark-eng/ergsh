@@ -1,25 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Students() {
-  const router = useRouter();
   const [message, setMessage] = useState<string>();
   const [school, setSchool] = useState<
-    [
-      {
-        id: string;
-        name: string;
-        email: string;
-        phone: string;
-        motto: string;
-        vision: string;
-      }
-    ]
-  >();
+    { id: string; name: string; email: string; phone: string; motto: string; vision: string }[]
+  >([]);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+
     const form = new FormData(event.currentTarget);
     const student = {
       schoolId: form.get("school"),
@@ -29,25 +21,29 @@ export default function Students() {
       grade: form.get("grade") as string,
     };
 
-    if (student) {
+    try {
       const response = await fetch("/api/erp/students", {
         method: "POST",
         body: JSON.stringify(student),
+        headers: { "Content-Type": "application/json" },
       });
 
-      const message = await response.json();
-      setMessage(message.message);
-      alert(message.message);
+      const result = await response.json();
+      setMessage(result.message);
+    } catch (error) {
+      setMessage("❌ Failed to add student. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    async function add() {
+    async function fetchSchools() {
       const schid = await fetch("/api/erp/schools");
-      const school = await schid.json();
-      setSchool(school.school);
+      const data = await schid.json();
+      setSchool(data.school);
     }
-    add();
+    fetchSchools();
   }, []);
 
   return (
@@ -65,32 +61,27 @@ export default function Students() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* School Select */}
         <div>
-          <label
-            htmlFor="school"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+          <label htmlFor="school" className="block text-sm font-semibold text-gray-700 mb-2">
             Select School
           </label>
           <select
             name="school"
             id="school"
+            required
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
           >
-            {school &&
-              school.map((schools) => (
-                <option key={schools.id} value={schools.id}>
-                  {schools.name}
-                </option>
-              ))}
+            <option value="">-- Choose a school --</option>
+            {school.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
           </select>
         </div>
 
         {/* Name */}
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+          <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
             Name
           </label>
           <input
@@ -104,27 +95,25 @@ export default function Students() {
 
         {/* Gender */}
         <div>
-          <label
-            htmlFor="gender"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+          <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-2">
             Gender
           </label>
-          <input
-            type="text"
+          <select
             id="gender"
             name="gender"
             required
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-          />
+          >
+            <option value="">-- Select gender --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         {/* Date of Birth */}
         <div>
-          <label
-            htmlFor="dob"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+          <label htmlFor="dob" className="block text-sm font-semibold text-gray-700 mb-2">
             Date of Birth
           </label>
           <input
@@ -138,28 +127,36 @@ export default function Students() {
 
         {/* Grade */}
         <div>
-          <label
-            htmlFor="grade"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+          <label htmlFor="grade" className="block text-sm font-semibold text-gray-700 mb-2">
             Grade
           </label>
-          <input
-            type="text"
+          <select
             id="grade"
             name="grade"
             required
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-          />
+          >
+            <option value="">-- Select grade --</option>
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                Grade {i + 1}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Submit */}
         <div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition"
+            disabled={loading}
+            className={`w-full font-semibold py-3 px-4 rounded-lg transition ${
+              loading
+                ? "bg-gray-400 text-gray-100 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-300"
+            }`}
           >
-            Add Student
+            {loading ? "Adding..." : "Add Student"}
           </button>
         </div>
       </form>

@@ -3,26 +3,33 @@ import { useState } from "react";
 
 export default function Create() {
   const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
   const [submitted, setSubmitted] = useState(false);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name") as string;
 
-    const request = await fetch("/api/erp/subjects", {
-      method: "POST",
-      body: JSON.stringify({ name: name }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await request.json();
+    try {
+      const request = await fetch("/api/erp/subjects", {
+        method: "POST",
+        body: JSON.stringify({ name }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await request.json();
 
-    setMessage(data);
-    setName(name);
-    setEmail(email);
-    setSubmitted(true);
+      setMessage(data.message || "✅ Subject created successfully!");
+      setName(name);
+      setSubmitted(true);
+    } catch (error) {
+      setMessage("❌ Failed to create subject. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -46,6 +53,7 @@ export default function Create() {
           type="text"
           id="name"
           name="name"
+          required
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
         />
       </div>
@@ -53,9 +61,14 @@ export default function Create() {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition"
+        disabled={loading}
+        className={`w-full font-semibold py-3 px-4 rounded-lg transition ${
+          loading
+            ? "bg-gray-400 text-gray-100 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-300"
+        }`}
       >
-        Submit
+        {loading ? "Submitting..." : "Submit"}
       </button>
 
       {/* Success Message */}
@@ -64,9 +77,6 @@ export default function Create() {
           <h1 className="text-lg font-bold text-green-800">
             🎉 Subject Created: {name}
           </h1>
-          <h2 className="text-green-700">
-            {email ? `Your email address is ${email}` : "No email provided"}
-          </h2>
         </div>
       )}
 

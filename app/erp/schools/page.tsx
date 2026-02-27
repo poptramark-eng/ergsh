@@ -5,10 +5,13 @@ export default function Create() {
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [submitted, setSubmitted] = useState(false);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -23,110 +26,52 @@ export default function Create() {
     });
     const data = await request.json();
 
-    setMessage(data);
+    setMessage(data.message || "School registered successfully!");
     setName(name);
     setEmail(email);
     setSubmitted(true);
+    setLoading(false);
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-lg mx-auto mt-12 p-8 bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg space-y-6 border border-gray-200"
+      className="max-w-lg mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg space-y-6 border border-gray-200"
     >
       <h1 className="text-2xl font-bold text-center text-gray-800">
         School Registration
       </h1>
 
-      {/* Name */}
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
+      {["name", "email", "phone", "motto", "vision"].map((field) => (
+        <div key={field}>
+          <label
+            htmlFor={field}
+            className="block text-sm font-semibold text-gray-700 mb-2 capitalize"
+          >
+            {field}
+          </label>
+          <input
+            type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+            id={field}
+            name={field}
+            required
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          />
+        </div>
+      ))}
 
-      {/* Email */}
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
-
-      {/* Phone */}
-      <div>
-        <label
-          htmlFor="phone"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Phone
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
-
-      {/* Motto */}
-      <div>
-        <label
-          htmlFor="motto"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Motto
-        </label>
-        <input
-          type="text"
-          id="motto"
-          name="motto"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
-
-      {/* Vision */}
-      <div>
-        <label
-          htmlFor="vision"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Vision
-        </label>
-        <input
-          type="text"
-          id="vision"
-          name="vision"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
-
-      {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition"
+        disabled={loading}
+        className={`w-full font-semibold py-3 px-4 rounded-lg transition ${
+          loading
+            ? "bg-gray-400 text-gray-100 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-300"
+        }`}
       >
-        Submit
+        {loading ? "Submitting..." : "Submit"}
       </button>
 
-      {/* Success Message */}
       {submitted && (
         <div className="mt-6 p-5 bg-green-50 border border-green-300 rounded-lg text-center">
           <h1 className="text-lg font-bold text-green-800">
@@ -138,7 +83,6 @@ export default function Create() {
         </div>
       )}
 
-      {/* Server Message */}
       {message && (
         <div className="mt-4 text-center text-sm text-gray-600">{message}</div>
       )}
