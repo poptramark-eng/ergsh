@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const school = await prisma.subjects.findMany();
+  const subjects = await prisma.subjects.findMany();
 
-  return NextResponse.json({ message: school });
+  return NextResponse.json({ subjects });
 }

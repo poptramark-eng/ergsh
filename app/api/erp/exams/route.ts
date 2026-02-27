@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const school = await prisma.exams.findMany();
+  const exams = await prisma.exams.findMany();
 
-  return NextResponse.json({ message: school });
+  return NextResponse.json({ exams });
 }

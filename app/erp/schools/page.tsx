@@ -51,7 +51,9 @@ export default function Create() {
             {field}
           </label>
           <input
-            type={field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+            type={
+              field === "email" ? "email" : field === "phone" ? "tel" : "text"
+            }
             id={field}
             name={field}
             required

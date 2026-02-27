@@ -29,50 +29,67 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
         <nav className="bg-white shadow-md">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex space-x-6">
-                <Link
-                  href="/erp"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  ERP
-                </Link>
-                <Link
-                  href="/erp/students"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  Add Students
-                </Link>
-                <Link
-                  href="/erp/teachers"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  Add Teachers
-                </Link>
-                <Link
-                  href="/erp/subjects"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  Add Subjects
-                </Link>
-                <Link
-                  href="/erp/exams"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  Add Exam
-                </Link>
-                <Link
-                  href="/erp/schools"
-                  className="text-gray-700 hover:text-blue-600 font-medium"
-                >
-                  Add School
-                </Link>
-              </div>
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-xl font-bold text-blue-600">School ERP</h1>
+            <div className="space-x-6">
+              <Link
+                href="/erp/details/schools"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Schools
+              </Link>
+              <Link
+                href="/erp/details/students"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Students
+              </Link>
+              <Link
+                href="/erp/details/teachers"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Teachers
+              </Link>
+              <Link
+                href="/erp/details/subjects"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Subjects
+              </Link>
+              <Link
+                href="/erp/details/exams"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Exams
+              </Link>
             </div>
           </div>
         </nav>
-        <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
+
+        {/* Hero Section */}
+        <header className="bg-blue-600 text-white py-20">
+          <div className="max-w-4xl mx-auto text-center px-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              School ERP Management System
+            </h1>
+            <p className="text-lg md:text-xl mb-8">
+              A modern platform to manage schools, students, teachers, subjects,
+              and exams — all in one place.
+            </p>
+            <Link
+              href="/erp/details/schools"
+              className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition"
+            >
+              Get Started
+            </Link>
+          </div>
+        </header>
+        {children}
+        <footer className="bg-gray-800 text-gray-300 py-6 text-center">
+          <p>
+            &copy; {new Date().getFullYear()} School ERP. All rights reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );
