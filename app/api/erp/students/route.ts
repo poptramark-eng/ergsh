@@ -36,11 +36,17 @@ export async function DELETE(request: NextRequest) {
   }
 }
 export async function PUT(request: NextRequest) {
-  const { id, name, dob, gender, grade } = await request.json();
+  const { id, name, dob, gender, grade, schoolId } = await request.json();
   try {
     const students = await prisma.students.update({
       where: { id: Number(id) },
-      data: { name: name, grade: grade, dob: dob, gender: gender },
+      data: {
+        name: name,
+        grade: grade,
+        dob: new Date(dob),
+        gender: gender,
+        schoolId: Number(schoolId),
+      },
     });
     return NextResponse.json({ message: "success" });
   } catch (error) {

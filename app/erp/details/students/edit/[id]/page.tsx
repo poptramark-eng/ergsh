@@ -1,70 +1,50 @@
 "use client";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+
 export default function Edit() {
   const router = useRouter();
-  const [state, setState] = useState<boolean>(false);
-  const [form_name, setName] = useState<string>();
-  const [form_dob, setdob] = useState<string>();
-  const [form_grade, setgrade] = useState<string>();
-  const [form_gender, setgender] = useState<string>();
-  const [form_id, setid] = useState<string>();
-  const { id } = useParams();
-  const search = useSearchParams();
-
-  const student = useSearchParams();
-  const name = student.get("name") as string;
-  const grade = student.get("grade") as string;
-  const dob = student.get("dob") as string;
-  const gender = student.get("gender") as string;
+  const param = useSearchParams();
+  const params = useParams();
+  const [student, setStudent] = useState<{
+    name: string;
+    dob: string;
+    schoolId: string;
+    gender: string;
+    grade: string;
+    id: string;
+  }>();
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
     const form = new FormData(event.currentTarget);
 
-    const student = {
+    setStudent({
       name: form.get("name") as string,
-      grade: form.get("grade") as string,
       dob: form.get("dob") as string,
+      schoolId: form.get("schoolId") as string,
       gender: form.get("gender") as string,
+      grade: form.get("grade") as string,
       id: form.get("id") as string,
-    };
-    setName(student.name);
-    setdob(student.dob);
-    setgender(student.gender);
-    setgrade(student.grade);
-    setid(student.id);
-    setState(true);
+    });
   }
-
   useEffect(() => {
     async function edit() {
-      if (state) {
-        const edited = await fetch("/api/erp/students", {
-          method: "PUT",
-
-          body: JSON.stringify({
-            name: form_name,
-            dob: form_dob,
-            gender: form_gender,
-            id: form_id,
-            grade: form_grade,
-          }),
-        });
-        const response = await edited.json();
-        const message = response.message;
-        message === "success"
-          ? router.push("/erp/details/students")
-          : alert(message);
-      }
+      const update = await fetch("/api/erp/students", {
+        method: "PUT",
+        body: JSON.stringify(student),
+      });
+      const response = await update.json();
+      const message = response.message;
+      message === "success"
+        ? router.push("/erp/details/students")
+        : alert("application error");
     }
-    edit();
-  }, []);
+    student ? edit() : "";
+  }, [student]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-12 p-6 bg-white rounded-xl shadow-md ring-1 ring-gray-100">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div>
+      <form onSubmit={handleSubmit}>
         <div>
           <label
             htmlFor="name"
@@ -72,29 +52,31 @@ export default function Edit() {
           >
             Name
           </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            defaultValue={param.get("name") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+          />
         </div>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          defaultValue={name}
-          className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
-        />
+
         <div>
           <label
             htmlFor="gender"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            gender
+            Gender
           </label>
           <input
             type="text"
             id="gender"
             name="gender"
-            defaultValue={gender}
-            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+            defaultValue={param.get("gender") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
+
         <div>
           <label
             htmlFor="dob"
@@ -103,13 +85,14 @@ export default function Edit() {
             Date of Birth
           </label>
           <input
-            type="date"
+            type="text"
             id="dob"
             name="dob"
-            defaultValue={dob}
-            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+            defaultValue={param.get("dob") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
+
         <div>
           <label
             htmlFor="grade"
@@ -121,25 +104,43 @@ export default function Edit() {
             type="text"
             id="grade"
             name="grade"
-            defaultValue={grade}
-            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+            defaultValue={param.get("grade") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
+
         <div>
           <label
             htmlFor="id"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            id
+            ID
           </label>
           <input
             type="text"
             id="id"
             name="id"
-            defaultValue={`${id}`}
-            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+            defaultValue={params.id as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
+
+        <div>
+          <label
+            htmlFor="schoolId"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            School ID
+          </label>
+          <input
+            type="text"
+            id="schoolId"
+            name="schoolId"
+            defaultValue={param.get("schoolId") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+          />
+        </div>
+
         <div>
           <input
             type="submit"
