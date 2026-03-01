@@ -19,3 +19,14 @@ export async function GET() {
 
   return NextResponse.json({ subjects });
 }
+export async function DELETE(request: NextRequest) {
+  const { id } = await request.json();
+  try {
+    const subjects = await prisma.subjects.delete({
+      where: { id: Number(id) },
+    });
+    return NextResponse.json({ message: "succesfully deleted" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}

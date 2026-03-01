@@ -21,5 +21,16 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const school = await prisma.schools.findMany();
 
-  return NextResponse.json({ school});
+  return NextResponse.json({ school });
+}
+export async function DELETE(request: NextRequest) {
+  const { id } = await request.json();
+  try {
+    const schools = await prisma.schools.delete({
+      where: { id: Number(id) },
+    });
+    return NextResponse.json({ message: "succesfully deleted" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
 }
