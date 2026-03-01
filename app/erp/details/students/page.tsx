@@ -48,8 +48,8 @@ export default function Students() {
               <th className="px-4 py-3 text-left">Grade</th>
               <th className="px-4 py-3 text-left">Created At</th>
               <th className="px-4 py-3 text-center">Details</th>
-              <th className="px-4 py-3 text-center">Delete</th>
               <th className="px-4 py-3 text-center">Edit</th>
+              <th className="px-4 py-3 text-center">Delete</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-gray-50">
@@ -65,17 +65,21 @@ export default function Students() {
                   <td className="px-4 py-3">{student.schoolId}</td>
                   <td className="px-4 py-3">{student.grade}</td>
                   <td className="px-4 py-3">{student.createdAt}</td>
-                  <td className="px-4 py-3 text-center">
-                    <button className="text-blue-600 hover:underline">
-                      Edit
-                    </button>
-                  </td>
+
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
                       className="text-red-600 hover:underline"
                     >
                       Details
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3 text-center">
+                    <Link
+                      href={`/erp/details/students/edit/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
+                      className="text-red-600 hover:underline"
+                    >
+                      Edit
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
@@ -104,3 +108,9 @@ export default function Students() {
     </div>
   );
 }
+/*  
+const student =useSearchParams();
+const name = student.get("name")as string;
+const grade = student.get("grade")as string;
+const dob = student.get("dob")as string;
+const gender = student.get("gender")as string;*/
