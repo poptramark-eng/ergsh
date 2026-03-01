@@ -66,9 +66,12 @@ export default function Teachers() {
                   <td className="px-4 py-3">{teacher.schoolId}</td>
                   <td className="px-4 py-3">{teacher.createdAt}</td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-blue-600 hover:underline">
+                    <Link
+                      href={`/erp/details/teachers/${teacher.id}?gender=${teacher.gender}&email=${teacher.email}&schoolId=${teacher.schoolId}&phone=${teacher.phone}&name=${teacher.name}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Details
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button className="text-red-600 hover:underline">

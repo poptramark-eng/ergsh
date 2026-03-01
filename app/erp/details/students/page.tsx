@@ -67,17 +67,20 @@ export default function Students() {
                   <td className="px-4 py-3">{student.createdAt}</td>
                   <td className="px-4 py-3 text-center">
                     <button className="text-blue-600 hover:underline">
-                      Details
+                      Edit
                     </button>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-red-600 hover:underline">
-                      Delete
-                    </button>
+                    <Link
+                      href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
+                      className="text-red-600 hover:underline"
+                    >
+                      Details
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button className="text-green-600 hover:underline">
-                      Edit
+                      Delete
                     </button>
                   </td>
                 </tr>
