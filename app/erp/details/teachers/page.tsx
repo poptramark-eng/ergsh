@@ -74,14 +74,20 @@ export default function Teachers() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-red-600 hover:underline">
+                    <Link
+                      href={`/erp/details/teachers/delete/${teacher.id}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Delete
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-green-600 hover:underline">
+                    <Link
+                      href={`/erp/details/teachers/${teacher.id}?gender=${teacher.gender}&email=${teacher.email}&schoolId=${teacher.schoolId}&phone=${teacher.phone}&name=${teacher.name}`}
+                      className="text-green-600 hover:underline"
+                    >
                       Edit
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))
