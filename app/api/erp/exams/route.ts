@@ -17,6 +17,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "error" });
   }
 }
+export async function DELETE(request: NextRequest) {
+  const { id } = await request.json();
+  try {
+    const teachers = await prisma.exams.delete({
+      where: { id: Number(id) },
+    });
+    return NextResponse.json({ message: "succesfully deleted" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}
 
 export async function GET() {
   const exams = await prisma.exams.findMany();

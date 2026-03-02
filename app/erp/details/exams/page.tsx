@@ -57,9 +57,12 @@ export default function Exams() {
                     </button>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-red-600 hover:underline">
+                    <Link
+                      href={`/erp/details/exams/delete/${exam.id}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Delete
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <button className="text-green-600 hover:underline">
