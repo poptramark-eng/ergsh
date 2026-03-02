@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Create() {
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [submitted, setSubmitted] = useState(false);
-  const [message, setMessage] = useState<string>();
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -24,12 +23,12 @@ export default function Create() {
       body: JSON.stringify({ name, email, phone, vision, motto }),
       headers: { "Content-Type": "application/json" },
     });
-    const data = await request.json();
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert("school exists")
+      : router.push("/erp/details/schools");
 
-    setMessage(data.message || "School registered successfully!");
-    setName(name);
-    setEmail(email);
-    setSubmitted(true);
     setLoading(false);
   }
 
@@ -73,21 +72,6 @@ export default function Create() {
       >
         {loading ? "Submitting..." : "Submit"}
       </button>
-
-      {submitted && (
-        <div className="mt-6 p-5 bg-green-50 border border-green-300 rounded-lg text-center">
-          <h1 className="text-lg font-bold text-green-800">
-            🎉 Welcome {name}!
-          </h1>
-          <h2 className="text-green-700">
-            Your email address is <span className="font-medium">{email}</span>
-          </h2>
-        </div>
-      )}
-
-      {message && (
-        <div className="mt-4 text-center text-sm text-gray-600">{message}</div>
-      )}
     </form>
   );
 }

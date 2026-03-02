@@ -3,19 +3,21 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const { name, email, phone, motto, vision } = await request.json();
+  try {
+    const school = await prisma.schools.create({
+      data: {
+        name: name,
+        email: email,
+        phone: Number(phone),
+        motto: motto,
+        vision: vision,
+      },
+    });
 
-  const school = await prisma.schools.create({
-    data: {
-      name: name,
-      email: email,
-      phone: Number(phone),
-      motto: motto,
-      vision: vision,
-    },
-  });
-
-  const test = JSON.stringify(school);
-  return NextResponse.json(`{test}`);
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
 }
 
 export async function GET() {
