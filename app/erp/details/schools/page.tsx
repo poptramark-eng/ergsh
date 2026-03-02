@@ -31,6 +31,15 @@ export default function Schools() {
 
       {schools.length > 0 ? (
         <ul className="space-y-4">
+          <li>
+            {" "}
+            <Link
+              href={`/erp/schools`}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+              Add schools
+            </Link>
+          </li>
           {schools.map((school) => (
             <li
               key={school.id}
@@ -47,12 +56,6 @@ export default function Schools() {
                   "{school.motto}" — {school.vision}
                 </p>
               </div>
-              <Link
-                href={`/erp/schools`}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
-              >
-                Add schools
-              </Link>
             </li>
           ))}
         </ul>

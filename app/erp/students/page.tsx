@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Students() {
-  const [message, setMessage] = useState<string>();
+  const router = useRouter();
   const [school, setSchool] = useState<
     {
       id: string;
@@ -28,20 +29,19 @@ export default function Students() {
       grade: form.get("grade") as string,
     };
 
-    try {
-      const response = await fetch("/api/erp/students", {
-        method: "POST",
-        body: JSON.stringify(student),
-        headers: { "Content-Type": "application/json" },
-      });
+    const request = await fetch("/api/erp/students", {
+      method: "POST",
+      body: JSON.stringify(student),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const result = await response.json();
-      setMessage(result.message);
-    } catch (error) {
-      setMessage("❌ Failed to add student. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert(message)
+      : router.push("/erp/details/students");
+
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -58,12 +58,6 @@ export default function Students() {
       <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
         Add Student
       </h1>
-
-      {message && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-300 rounded-lg text-center">
-          <h2 className="text-green-700 font-semibold">{message}</h2>
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* School Select */}

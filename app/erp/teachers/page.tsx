@@ -1,10 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Teachers() {
-  const [message, setMessage] = useState<string>();
+  const router = useRouter();
   const [school, setSchool] = useState<
-    { id: string; name: string; email: string; phone: string; motto: string; vision: string }[]
+    {
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      motto: string;
+      vision: string;
+    }[]
   >([]);
   const [loading, setLoading] = useState(false);
 
@@ -21,20 +29,19 @@ export default function Teachers() {
       email: form.get("email") as string,
     };
 
-    try {
-      const response = await fetch("/api/erp/teachers", {
-        method: "POST",
-        body: JSON.stringify(teacher),
-        headers: { "Content-Type": "application/json" },
-      });
+    const request = await fetch("/api/erp/teachers", {
+      method: "POST",
+      body: JSON.stringify(teacher),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const result = await response.json();
-      setMessage(result.message);
-    } catch (error) {
-      setMessage("❌ Failed to add teacher. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert(message)
+      : router.push("/erp/details/teachers");
+
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -51,17 +58,13 @@ export default function Teachers() {
       <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
         Add Teacher
       </h1>
-
-      {message && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-300 rounded-lg text-center">
-          <h2 className="text-green-700 font-semibold">{message}</h2>
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* School Select */}
         <div>
-          <label htmlFor="school" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="school"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             School
           </label>
           <select
@@ -81,7 +84,10 @@ export default function Teachers() {
 
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="name"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Name
           </label>
           <input
@@ -95,7 +101,10 @@ export default function Teachers() {
 
         {/* Gender */}
         <div>
-          <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="gender"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Gender
           </label>
           <select
@@ -113,7 +122,10 @@ export default function Teachers() {
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Phone
           </label>
           <input
@@ -127,7 +139,10 @@ export default function Teachers() {
 
         {/* Email */}
         <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Email
           </label>
           <input
