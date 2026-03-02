@@ -34,3 +34,21 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "Application Error" });
   }
 }
+export async function PUT(request: NextRequest) {
+  const { id, name, phone, motto, email, vision } = await request.json();
+  try {
+    const students = await prisma.schools.update({
+      where: { id: Number(id) },
+      data: {
+        name: name,
+        email: email,
+        phone: Number(phone),
+        motto: motto,
+        vision: vision,
+      },
+    });
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}

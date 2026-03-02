@@ -52,9 +52,12 @@ export default function Exams() {
                   <td className="px-4 py-3">{exam.term}</td>
                   <td className="px-4 py-3">{exam.year}</td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-blue-600 hover:underline">
+                    <Link
+                      href={`/erp/details/exams/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Details
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <Link

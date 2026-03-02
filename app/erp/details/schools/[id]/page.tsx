@@ -6,34 +6,34 @@ export default function Edit() {
   const router = useRouter();
   const param = useSearchParams();
   const params = useParams();
-  const [teacher, setteacher] = useState<{
+  const [school, setschool] = useState<{
     name: string;
     phone: string;
-    schoolId: string;
-    gender: string;
-    grade: string;
+    vision: string;
+    motto: string;
+    email: string;
     id: string;
   }>();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const teacher = {
+    const school = {
       name: form.get("name") as string,
       phone: form.get("phone") as string,
-      schoolId: form.get("schoolId") as string,
-      gender: form.get("gender") as string,
+      vision: form.get("vision") as string,
+      motto: form.get("motto") as string,
       email: form.get("email") as string,
       id: form.get("id") as string,
     };
-    const update = await fetch("/api/erp/teachers", {
+    const update = await fetch("/api/erp/schools", {
       method: "PUT",
-      body: JSON.stringify(teacher),
+      body: JSON.stringify(school),
     });
     const response = await update.json();
     const message = response.message;
     message === "success"
-      ? router.push("/erp/details/teachers")
+      ? router.push("/erp/details/schools")
       : alert("application error");
   }
 
@@ -58,22 +58,18 @@ export default function Edit() {
 
         <div>
           <label
-            htmlFor="gender"
-            className="block text-sm font-semibold text-gray-700 mb-2"
+            htmlFor="motto"
+            className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Gender
+            motto
           </label>
-          <select
-            id="gender"
-            name="gender"
-            defaultValue={param.get("gender") as string}
-            required
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-          >
-            <option value="">-- Select gender --</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+          <input
+            type="text"
+            id="motto"
+            name="motto"
+            defaultValue={param.get("motto") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+          />
         </div>
 
         <div>
@@ -128,16 +124,16 @@ export default function Edit() {
 
         <div>
           <label
-            htmlFor="schoolId"
+            htmlFor="vision"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            School ID
+            Vision
           </label>
           <input
             type="text"
-            id="schoolId"
-            name="schoolId"
-            defaultValue={param.get("schoolId") as string}
+            id="vision"
+            name="vision"
+            defaultValue={param.get("vision") as string}
             readOnly
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />

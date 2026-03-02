@@ -55,6 +55,12 @@ export default function Schools() {
                 <p className="text-sm italic text-gray-500">
                   "{school.motto}" — {school.vision}
                 </p>
+                <Link
+                  href={`/erp/details/schools/${school.id}?name=${school.name}&phone=${school.phone}&email=${school.email}&motto=${school.motto}&vision=${school.vision}`}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                >
+                  Edit school details
+                </Link>
               </div>
             </li>
           ))}
