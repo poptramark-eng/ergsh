@@ -35,6 +35,24 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: "Application Error" });
   }
 }
+export async function PUT(request: NextRequest) {
+  const { id, name, phone, gender, email, schoolId } = await request.json();
+  try {
+    const students = await prisma.teachers.update({
+      where: { id: Number(id) },
+      data: {
+        name: name,
+        email: email,
+        phone: Number(phone),
+        gender: gender,
+        schoolId: Number(schoolId),
+      },
+    });
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}
 
 /* model Teachers {
   id        Int      @id @default(autoincrement())

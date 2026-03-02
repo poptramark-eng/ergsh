@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Create() {
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [submitted, setSubmitted] = useState(false);
-  const [message, setMessage] = useState();
+  const router = useRouter();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,13 +16,12 @@ export default function Create() {
       body: JSON.stringify({ exam: exam, term: term }),
       headers: { "Content-Type": "application/json" },
     });
-    const data = await request.json();
+    const response = await request.json();
 
-    setMessage(data);
-
-    setName(name);
-    setEmail(email);
-    setSubmitted(true);
+    const message = response.message;
+    message !== "success"
+      ? alert("Exam exists")
+      : router.push("/erp/details/exams");
   }
 
   return (
@@ -44,6 +41,7 @@ export default function Create() {
           type="text"
           id="exam"
           name="exam"
+          required
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
         />
       </div>
@@ -58,6 +56,7 @@ export default function Create() {
           type="text"
           id="term"
           name="term"
+          required
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
         />
       </div>
@@ -68,15 +67,6 @@ export default function Create() {
       >
         Submit
       </button>
-
-      {submitted && (
-        <div className="mt-6 p-4 bg-green-100 border border-green-300 rounded-md">
-          <h1 className="text-lg font-bold text-green-800">Welcome {name}</h1>
-          <h2 className="text-green-700">Your email address is {email}</h2>
-        </div>
-      )}
-
-      {message ? `${message}` : null}
     </form>
   );
 }

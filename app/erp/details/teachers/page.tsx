@@ -83,8 +83,8 @@ export default function Teachers() {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <Link
-                      href={`/erp/details/teachers/${teacher.id}?gender=${teacher.gender}&email=${teacher.email}&schoolId=${teacher.schoolId}&phone=${teacher.phone}&name=${teacher.name}`}
-                      className="text-green-600 hover:underline"
+                      href={`/erp/details/teachers/edit/${teacher.id}?gender=${teacher.gender}&phone=${teacher.phone}&schoolId=${teacher.schoolId}&email=${teacher.email}&name=${teacher.name}`}
+                      className="text-red-600 hover:underline"
                     >
                       Edit
                     </Link>

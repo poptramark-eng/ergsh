@@ -1,12 +1,21 @@
 "use client";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 
 export default function Teacher() {
+  const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const teacher = useSearchParams();
 
   return (
     <article className="max-w-xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+      <button
+        onClick={() => {
+          return router.back();
+        }}
+        className="text-blue-600 hover:text-blue-800 font-medium items-center space-x-2 flex"
+      >
+        <span className="text-xl">&larr;</span> <span>Back</span>
+      </button>
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
         {teacher.get("name")}
       </h1>
@@ -27,6 +36,14 @@ export default function Teacher() {
           <span className="font-semibold">School ID:</span>{" "}
           {teacher.get("schoolId")}
         </li>
+        <button
+          onClick={() => {
+            return router.back();
+          }}
+          className="font-semibold"
+        >
+          view teachers
+        </button>
       </ul>
     </article>
   );

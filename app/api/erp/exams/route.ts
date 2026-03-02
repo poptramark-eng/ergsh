@@ -4,15 +4,18 @@ import prisma from "@/lib/prisma";
 export async function POST(request: NextRequest) {
   const { exam, term } = await request.json();
 
-  const school = await prisma.exams.create({
-    data: {
-      exam: exam,
-      term: term,
-    },
-  });
+  try {
+    const school = await prisma.exams.create({
+      data: {
+        exam: exam,
+        term: term,
+      },
+    });
 
-  const test = JSON.stringify(school);
-  return NextResponse.json(`{test}`);
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "error" });
+  }
 }
 
 export async function GET() {
