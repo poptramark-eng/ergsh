@@ -34,3 +34,19 @@ export async function GET() {
 
   return NextResponse.json({ exams });
 }
+
+export async function PUT(request: NextRequest) {
+  const { id, exam, term } = await request.json();
+  try {
+    const students = await prisma.exams.update({
+      where: { id: Number(id) },
+      data: {
+        exam: exam,
+        term: term,
+      },
+    });
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}

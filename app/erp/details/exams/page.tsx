@@ -68,9 +68,12 @@ export default function Exams() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-green-600 hover:underline">
+                    <Link
+                      href={`/erp/details/exams/edit/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Edit
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))

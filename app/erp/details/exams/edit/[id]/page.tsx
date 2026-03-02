@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Edit() {
   const router = useRouter();
@@ -15,17 +15,18 @@ export default function Edit() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const school = {
-      name: form.get("name") as string,
+      exam: form.get("exam") as string,
       id: form.get("id") as string,
+      term: form.get("term") as string,
     };
-    const update = await fetch("/api/erp/subjects", {
+    const update = await fetch("/api/erp/exams", {
       method: "PUT",
       body: JSON.stringify(school),
     });
     const response = await update.json();
     const message = response.message;
     message === "success"
-      ? router.push("/erp/details/subjects")
+      ? router.push("/erp/details/exams")
       : alert("application error");
   }
 
@@ -34,16 +35,31 @@ export default function Edit() {
       <form onSubmit={handleSubmit}>
         <div>
           <label
-            htmlFor="name"
+            htmlFor="exam"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Name
+            exam
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
-            defaultValue={param.get("name") as string}
+            id="exam"
+            name="exam"
+            defaultValue={param.get("exam") as string}
+            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="term"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            term
+          </label>
+          <input
+            type="text"
+            id="term"
+            name="term"
+            defaultValue={param.get("term") as string}
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
