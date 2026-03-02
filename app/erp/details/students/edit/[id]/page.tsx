@@ -15,32 +15,27 @@ export default function Edit() {
     id: string;
   }>();
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     const form = new FormData(event.currentTarget);
-
-    setStudent({
+    const student = {
       name: form.get("name") as string,
       dob: form.get("dob") as string,
       schoolId: form.get("schoolId") as string,
       gender: form.get("gender") as string,
       grade: form.get("grade") as string,
       id: form.get("id") as string,
+    };
+    const update = await fetch("/api/erp/students", {
+      method: "PUT",
+      body: JSON.stringify(student),
     });
+    const response = await update.json();
+    const message = response.message;
+    message === "success"
+      ? router.push("/erp/details/students")
+      : alert("application error");
   }
-  useEffect(() => {
-    async function edit() {
-      const update = await fetch("/api/erp/students", {
-        method: "PUT",
-        body: JSON.stringify(student),
-      });
-      const response = await update.json();
-      const message = response.message;
-      message === "success"
-        ? router.push("/erp/details/students")
-        : alert("application error");
-    }
-    student ? edit() : "";
-  }, [student]);
 
   return (
     <div>
@@ -64,17 +59,21 @@ export default function Edit() {
         <div>
           <label
             htmlFor="gender"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-semibold text-gray-700 mb-2"
           >
             Gender
           </label>
-          <input
-            type="text"
+          <select
             id="gender"
             name="gender"
             defaultValue={param.get("gender") as string}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
-          />
+            required
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          >
+            <option value="">-- Select gender --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
         </div>
 
         <div>
@@ -96,17 +95,24 @@ export default function Edit() {
         <div>
           <label
             htmlFor="grade"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-semibold text-gray-700 mb-2"
           >
             Grade
           </label>
-          <input
-            type="text"
+          <select
             id="grade"
             name="grade"
             defaultValue={param.get("grade") as string}
-            className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
-          />
+            required
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          >
+            <option value="">-- Select grade --</option>
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                Grade {i + 1}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -121,6 +127,7 @@ export default function Edit() {
             id="id"
             name="id"
             defaultValue={params.id as string}
+            readOnly
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
@@ -137,6 +144,7 @@ export default function Edit() {
             id="schoolId"
             name="schoolId"
             defaultValue={param.get("schoolId") as string}
+            readOnly
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>

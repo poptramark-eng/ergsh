@@ -50,7 +50,6 @@ export async function PUT(request: NextRequest) {
     });
     return NextResponse.json({ message: "success" });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ message: "Application Error" });
   }
 }

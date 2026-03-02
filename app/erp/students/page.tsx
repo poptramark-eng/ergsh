@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 export default function Students() {
   const [message, setMessage] = useState<string>();
   const [school, setSchool] = useState<
-    { id: string; name: string; email: string; phone: string; motto: string; vision: string }[]
+    {
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      motto: string;
+      vision: string;
+    }[]
   >([]);
   const [loading, setLoading] = useState(false);
 
@@ -61,7 +68,10 @@ export default function Students() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* School Select */}
         <div>
-          <label htmlFor="school" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="school"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Select School
           </label>
           <select
@@ -81,7 +91,10 @@ export default function Students() {
 
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="name"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Name
           </label>
           <input
@@ -95,7 +108,10 @@ export default function Students() {
 
         {/* Gender */}
         <div>
-          <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="gender"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Gender
           </label>
           <select
@@ -107,13 +123,15 @@ export default function Students() {
             <option value="">-- Select gender --</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Other">Other</option>
           </select>
         </div>
 
         {/* Date of Birth */}
         <div>
-          <label htmlFor="dob" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="dob"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Date of Birth
           </label>
           <input
@@ -127,7 +145,10 @@ export default function Students() {
 
         {/* Grade */}
         <div>
-          <label htmlFor="grade" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="grade"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Grade
           </label>
           <select
