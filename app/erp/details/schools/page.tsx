@@ -28,18 +28,14 @@ export default function Schools() {
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
         Registered Schools
       </h1>
-
+      <Link
+        href={`/erp/schools`}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+      >
+        Add schools
+      </Link>
       {schools.length > 0 ? (
         <ul className="space-y-4">
-          <li>
-            {" "}
-            <Link
-              href={`/erp/schools`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
-            >
-              Add schools
-            </Link>
-          </li>
           {schools.map((school) => (
             <li
               key={school.id}
@@ -65,12 +61,6 @@ export default function Schools() {
                   </Link>
                 </div>
 
-                <Link
-                  href={`/erp/details/schools/delete/${school.id}?name=${school.name}&phone=${school.phone}&email=${school.email}&motto=${school.motto}&vision=${school.vision}`}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
-                >
-                  Edit school details
-                </Link>
                 <p className="px-4 py-3 text-center">
                   <Link
                     href={`/erp/details/schools/delete/${school.id}`}

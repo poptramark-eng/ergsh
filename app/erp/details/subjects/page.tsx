@@ -50,19 +50,28 @@ export default function Subjects() {
                   </td>
                   <td className="px-4 py-3">{subject.createdAt}</td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-blue-600 hover:underline">
+                    <Link
+                      href={`/erp/details/subjects/details/${subject.id}?name=${subject.name}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Details
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-red-600 hover:underline">
+                    <Link
+                      href={`/erp/details/subjects/delete/${subject.id}`}
+                      className="text-red-600 hover:underline"
+                    >
                       Delete
-                    </button>
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button className="text-green-600 hover:underline">
+                    <Link
+                      href={`/erp/details/subjects/edit/${subject.id}?name=${subject.name}`}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                    >
                       Edit
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))

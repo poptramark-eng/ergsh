@@ -4,14 +4,17 @@ import prisma from "@/lib/prisma";
 export async function POST(request: NextRequest) {
   const { name } = await request.json();
 
-  const school = await prisma.subjects.create({
-    data: {
-      name: name,
-    },
-  });
+  try {
+    const school = await prisma.subjects.create({
+      data: {
+        name: name,
+      },
+    });
 
-  const test = JSON.stringify(school);
-  return NextResponse.json(`{test}`);
+    return NextResponse.json({ message: "success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
 }
 
 export async function GET() {
@@ -26,6 +29,22 @@ export async function DELETE(request: NextRequest) {
       where: { id: Number(id) },
     });
     return NextResponse.json({ message: "succesfully deleted" });
+  } catch (error) {
+    return NextResponse.json({ message: "Application Error" });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  const { id, name } = await request.json();
+  try {
+    const students = await prisma.subjects.update({
+      where: { id: Number(id) },
+      data: {
+        name: name,
+        id: Number(id),
+      },
+    });
+    return NextResponse.json({ message: "success" });
   } catch (error) {
     return NextResponse.json({ message: "Application Error" });
   }
