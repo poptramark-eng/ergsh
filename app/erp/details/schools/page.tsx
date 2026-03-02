@@ -69,6 +69,14 @@ export default function Schools() {
                     Delete
                   </Link>
                 </p>
+                <p className="px-4 py-3 text-center">
+                  <Link
+                    href={`/erp/details/schools/${school.id}?motto=${school.motto}&email=${school.email}&phone=${school.phone}&name=${school.name}}&vision=${school.vision}`}
+                    className="text-red-600 hover:underline"
+                  >
+                    edit
+                  </Link>
+                </p>
               </div>
             </li>
           ))}

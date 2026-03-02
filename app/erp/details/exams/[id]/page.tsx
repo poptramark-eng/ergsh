@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 
-export default function exam() {
+export default function Exam() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const exam = useSearchParams();

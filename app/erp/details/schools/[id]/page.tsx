@@ -1,19 +1,10 @@
 "use client";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function Edit() {
   const router = useRouter();
   const param = useSearchParams();
   const params = useParams();
-  const [school, setschool] = useState<{
-    name: string;
-    phone: string;
-    vision: string;
-    motto: string;
-    email: string;
-    id: string;
-  }>();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -100,7 +91,6 @@ export default function Edit() {
             id="email"
             name="email"
             defaultValue={param.get("email") as string}
-            readOnly
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
@@ -134,7 +124,6 @@ export default function Edit() {
             id="vision"
             name="vision"
             defaultValue={param.get("vision") as string}
-            readOnly
             className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300"
           />
         </div>
