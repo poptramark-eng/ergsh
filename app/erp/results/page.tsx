@@ -54,6 +54,7 @@ export default function Result() {
       subjectId: form.get("subjectId"),
       score: form.get("score"),
     };
+    alert(JSON.stringify(result));
   }
   useEffect(() => {
     async function relations() {
@@ -108,8 +109,8 @@ export default function Result() {
           Select student
         </label>
         <select
-          name="student"
-          id="student"
+          name="studentId"
+          id="studentId"
           required
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
         >
@@ -130,8 +131,8 @@ export default function Result() {
           Select exam
         </label>
         <select
-          name="exam"
-          id="exam"
+          name="examId"
+          id="examId"
           required
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
         >
@@ -152,8 +153,8 @@ export default function Result() {
           Select subject
         </label>
         <select
-          name="subject"
-          id="subject"
+          name="subjectId"
+          id="subjectId"
           required
           className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
         >
@@ -165,6 +166,23 @@ export default function Result() {
               </option>
             ))}
         </select>
+      </div>
+      <div>
+        <label
+          htmlFor="score"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
+          score
+        </label>
+        <input
+          type="number"
+          min={0}
+          max={100}
+          id="score"
+          name="score"
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+        />
       </div>
 
       <button
