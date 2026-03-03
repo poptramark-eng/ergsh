@@ -62,10 +62,10 @@ export default function Result() {
       setSchools(school_array.school);
       const students = await fetch("/api/erp/students");
       const students_array = await students.json();
-      setStudents(students_array.student);
+      setStudents(students_array.students);
       const subject = await fetch("/api/erp/subjects");
       const subject_array = await subject.json();
-      setSubjects(subject_array.subject);
+      setSubjects(subject_array.subjects);
       const exams = await fetch("/api/erp/exams");
       const exams_array = await exams.json();
       setExams(exams_array.exams);
@@ -77,15 +77,96 @@ export default function Result() {
       onSubmit={handleSubmit}
       className="max-w-lg mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg space-y-6 border border-gray-200"
     >
-      <select name="" id="">
-        {}
-      </select>
-      <select name="" id="">
-        {}
-      </select>
-      <select name="" id="">
-        {}
-      </select>
+      {/* School Select */}
+      <div>
+        <label
+          htmlFor="school"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
+          Select School
+        </label>
+        <select
+          name="school"
+          id="school"
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+        >
+          <option value="">-- Choose a school --</option>
+          {schools &&
+            schools.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+        </select>
+      </div>
+      <div>
+        <label
+          htmlFor="student"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
+          Select student
+        </label>
+        <select
+          name="student"
+          id="student"
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+        >
+          <option value="">-- Choose a student --</option>
+          {students &&
+            students.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+        </select>
+      </div>
+      <div>
+        <label
+          htmlFor="exam"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
+          Select exam
+        </label>
+        <select
+          name="exam"
+          id="exam"
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+        >
+          <option value="">-- Choose a exam --</option>
+          {exams &&
+            exams.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.exam}
+              </option>
+            ))}
+        </select>
+      </div>
+      <div>
+        <label
+          htmlFor="subject"
+          className="block text-sm font-semibold text-gray-700 mb-2"
+        >
+          Select subject
+        </label>
+        <select
+          name="subject"
+          id="subject"
+          required
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+        >
+          <option value="">-- Choose a subject --</option>
+          {subjects &&
+            subjects.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+        </select>
+      </div>
+
       <button
         type="submit"
         disabled={loading}
