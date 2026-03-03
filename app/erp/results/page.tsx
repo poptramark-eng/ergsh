@@ -1,7 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Result() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [schools, setSchools] = useState<
     [
@@ -54,7 +56,19 @@ export default function Result() {
       subjectId: form.get("subjectId"),
       score: form.get("score"),
     };
-    alert(JSON.stringify(result));
+
+    const request = await fetch("/api/erp/results", {
+      method: "POST",
+      body: JSON.stringify(result),
+      headers: { "Content-Type": "application/json" },
+    });
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert(message)
+      : router.push("/erp/details/teachers");
+
+    setLoading(false);
   }
   useEffect(() => {
     async function relations() {
@@ -199,3 +213,17 @@ export default function Result() {
     </form>
   );
 }
+/*const request = await fetch("/api/erp/results", {
+      method: "POST",
+      body: JSON.stringify(result),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert(message)
+      : router.push("/erp/details/teachers");
+
+    setLoading(false);
+  }*/

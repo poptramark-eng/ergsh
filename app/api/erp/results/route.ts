@@ -6,8 +6,8 @@ export async function POST(request: NextRequest) {
   try {
     const results = await prisma.results.create({
       data: {
-        subjectId: subjectId,
-        studentId: studentId,
+        subjectId: Number(subjectId),
+        studentId: Number(studentId),
         examId: Number(examId),
         score: Number(score),
       },
