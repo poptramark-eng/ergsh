@@ -66,6 +66,12 @@ export default function RootLayout({
               >
                 Exams
               </Link>
+              <Link
+                href="/erp/details/results"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Results
+              </Link>
             </div>
           </div>
         </nav>

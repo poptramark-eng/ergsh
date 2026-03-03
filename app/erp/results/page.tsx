@@ -66,7 +66,7 @@ export default function Result() {
     const message = response.message;
     message !== "success"
       ? alert(message)
-      : router.push("/erp/details/teachers");
+      : router.push("/erp/details/results");
 
     setLoading(false);
   }
