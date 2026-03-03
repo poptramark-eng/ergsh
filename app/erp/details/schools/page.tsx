@@ -24,65 +24,68 @@ export default function Schools() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+    <div className="max-w-5xl mx-auto mt-12 p-10 bg-white rounded-2xl shadow-xl border border-gray-200">
+      <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-10">
         Registered Schools
       </h1>
-      <Link
-        href={`/erp/schools`}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
-      >
-        Add schools
-      </Link>
+
+      <div className="flex justify-center mb-8">
+        <Link
+          href={`/erp/schools`}
+          className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition duration-200"
+        >
+          + Add School
+        </Link>
+      </div>
+
       {schools.length > 0 ? (
-        <ul className="space-y-4">
+        <ul className="space-y-6">
           {schools.map((school) => (
             <li
               key={school.id}
-              className="p-4 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition flex justify-between items-center"
+              className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100"
             >
-              <div>
-                <h2 className="text-lg font-semibold text-blue-600">
-                  {school.name}
-                </h2>
-                <p className="text-sm text-gray-600">
-                  {school.email} • {school.phone}
-                </p>
-                <p className="text-sm italic text-gray-500">
-                  "{school.motto}" — {school.vision}
-                </p>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-xl font-bold text-blue-700">
+                    {school.name}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {school.email} • {school.phone}
+                  </p>
+                  <p className="text-sm italic text-gray-500 mt-2">
+                    "{school.motto}" — {school.vision}
+                  </p>
+                </div>
 
-                <div className="px-4 py-3 text-center">
+                <div className="flex flex-col space-y-2 text-right">
                   <Link
-                    href={`/erp/details/schools/detail/${school.id}?motto=${school.motto}&email=${school.email}&phone=${school.phone}&name=${school.name}}&vision=${school.vision}`}
-                    className="text-red-600 hover:underline"
+                    href={`/erp/details/schools/detail/${school.id}?motto=${school.motto}&email=${school.email}&phone=${school.phone}&name=${school.name}&vision=${school.vision}`}
+                    className="text-blue-600 hover:underline font-medium"
                   >
                     Details
                   </Link>
-                </div>
-
-                <p className="px-4 py-3 text-center">
+                  <Link
+                    href={`/erp/details/schools/${school.id}?motto=${school.motto}&email=${school.email}&phone=${school.phone}&name=${school.name}&vision=${school.vision}`}
+                    className="text-green-600 hover:underline font-medium"
+                  >
+                    Edit
+                  </Link>
                   <Link
                     href={`/erp/details/schools/delete/${school.id}`}
-                    className="text-red-600 hover:underline"
+                    className="text-red-600 hover:underline font-medium"
                   >
                     Delete
                   </Link>
-                </p>
-                <p className="px-4 py-3 text-center">
-                  <Link
-                    href={`/erp/details/schools/${school.id}?motto=${school.motto}&email=${school.email}&phone=${school.phone}&name=${school.name}}&vision=${school.vision}`}
-                    className="text-red-600 hover:underline"
-                  >
-                    edit
-                  </Link>
-                </p>
+                </div>
               </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-center text-gray-500 italic">No schools found.</p>
+        <p className="text-center text-gray-500 italic mt-6">
+          No schools found.
+        </p>
       )}
     </div>
   );

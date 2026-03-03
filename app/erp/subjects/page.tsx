@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Create() {
+  const router = useRouter();
   const [name, setName] = useState<string>();
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState<string>();
@@ -14,22 +16,19 @@ export default function Create() {
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name") as string;
 
-    try {
-      const request = await fetch("/api/erp/subjects", {
-        method: "POST",
-        body: JSON.stringify({ name }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await request.json();
+    const request = await fetch("/api/erp/subjects", {
+      method: "POST",
+      body: JSON.stringify({ name }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      setMessage(data.message || "✅ Subject created successfully!");
-      setName(name);
-      setSubmitted(true);
-    } catch (error) {
-      setMessage("❌ Failed to create subject. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    const response = await request.json();
+    const message = response.message;
+    message !== "success"
+      ? alert(message)
+      : router.push("/erp/details/subjects");
+
+    setLoading(false);
   }
 
   return (
@@ -70,20 +69,6 @@ export default function Create() {
       >
         {loading ? "Submitting..." : "Submit"}
       </button>
-
-      {/* Success Message */}
-      {submitted && (
-        <div className="mt-6 p-5 bg-green-50 border border-green-300 rounded-lg text-center">
-          <h1 className="text-lg font-bold text-green-800">
-            🎉 Subject Created: {name}
-          </h1>
-        </div>
-      )}
-
-      {/* Server Response */}
-      {message && (
-        <div className="mt-4 text-center text-sm text-gray-600">{message}</div>
-      )}
     </form>
   );
 }

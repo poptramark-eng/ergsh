@@ -19,7 +19,7 @@ export default function Students() {
     async function fetchStudents() {
       const data = await fetch("/api/erp/students");
       const students_array = await data.json();
-      setStudents(students_array.school); // adjust if API returns differently
+      setStudents(students_array.students); // adjust if API returns differently
     }
     fetchStudents();
   }, []);
