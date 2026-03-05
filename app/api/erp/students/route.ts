@@ -22,7 +22,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const students = await prisma.students.findMany({});
+  const students = await prisma.students.findMany({
+    include:{school:true}
+  });
 
   return NextResponse.json({ students });
 }

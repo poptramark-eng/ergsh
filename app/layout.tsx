@@ -77,23 +77,7 @@ export default function RootLayout({
         </nav>
 
         {/* Hero Section */}
-        <header className="bg-blue-600 text-white py-12 sm:py-20">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-            <h1 className="text-3xl sm:text-5xl font-bold mb-4">
-              School ERP Management System
-            </h1>
-            <p className="text-base sm:text-xl mb-8">
-              A modern platform to manage schools, students, teachers, subjects,
-              and exams — all in one place.
-            </p>
-            <Link
-              href="/erp/details/schools"
-              className="bg-white text-blue-600 font-semibold px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow hover:bg-gray-100 transition"
-            >
-              Get Started
-            </Link>
-          </div>
-        </header>
+ 
 
         {/* Page Content */}
         {children}

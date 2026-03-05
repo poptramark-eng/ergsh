@@ -5,13 +5,23 @@ import Link from "next/link";
 export default function Students() {
   const [students, setStudents] = useState<
     {
-      id: string;
-      name: string;
-      gender: string;
-      dob: string;
-      schoolId: string;
-      grade: string;
-      createdAt: string;
+      id: string,
+      name: string,
+      gender: string,
+      dob: string,
+      schoolId: string,
+      grade: string,
+      createdAt: string,
+      school: {
+       
+        id: string,
+        name:string,
+        email: string,
+        phone: string,
+        motto: string,
+        vision: string,
+      
+      }
     }[]
   >([]);
 
@@ -40,11 +50,11 @@ export default function Students() {
         <table className="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
           <thead className="bg-blue-600 text-white">
             <tr>
-              <th className="px-4 py-3 text-left">ID</th>
+              <th className="px-4 py-3 text-left">ADM</th>
               <th className="px-4 py-3 text-left">Name</th>
               <th className="px-4 py-3 text-left">Gender</th>
               <th className="px-4 py-3 text-left">DOB</th>
-              <th className="px-4 py-3 text-left">School ID</th>
+              <th className="px-4 py-3 text-left">School</th>
               <th className="px-4 py-3 text-left">Grade</th>
               <th className="px-4 py-3 text-left">Created At</th>
               <th className="px-4 py-3 text-center">Details</th>
@@ -62,13 +72,13 @@ export default function Students() {
                   </td>
                   <td className="px-4 py-3">{student.gender}</td>
                   <td className="px-4 py-3">{student.dob}</td>
-                  <td className="px-4 py-3">{student.schoolId}</td>
+                  <td className="px-4 py-3">{student.school.name}</td>
                   <td className="px-4 py-3">{student.grade}</td>
                   <td className="px-4 py-3">{student.createdAt}</td>
 
                   <td className="px-4 py-3 text-center">
                     <Link
-                      href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
+                      href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.school.name}&grade=${student.grade}&name=${student.name}`}
                       className="text-red-600 hover:underline"
                     >
                       Details
