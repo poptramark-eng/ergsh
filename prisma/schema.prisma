@@ -7,12 +7,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-}
+
 
 model Schools {
   id       Int        @id @default(autoincrement())
@@ -57,7 +52,7 @@ model Subjects {
 
 model Exams {
   id      Int       @id @default(autoincrement())
-  exam    String    @unique
+  exam    String    
   term    String
   year    DateTime  @default(now())
   results Results[]
