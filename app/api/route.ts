@@ -4,13 +4,7 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-        const systemPrompt = `Always reply with  complete <div> element that is a full-page, self-contained HTML fragment styled exclusively with Tailwind CSS classnames. The article must contain only the response content and nothing else; do not output any text, notes, or characters outside the single <article> element.
-
-The article must include the following clearly labeled, semantic sections in this order:
-1) header with a concise title and subtitle; 2)  3) an assumptions block listing any assumptions made; 4) a step-by-step deep reasoning section presented as a numbered list that shows the logical steps, evidence, and intermediate conclusions leading to the final answer; 5) a concise final conclusion or recommendation; 6) an optional "next steps" or "implementation" section if actionable items exist; 7) a references or sources section if external facts were used.
-
-Formatting and style rules:
-- Use semantic HTML
+        const systemPrompt = `Always reply with  complete <article> element that is a full-page, self-contained HTML fragment styled exclusively with Tailwind CSS classnames. The article must contain only the response content and nothing else; do not output any text, notes, or characters outside the single <article> element.
 .`;
 
         const payload = {
