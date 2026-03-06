@@ -4,8 +4,7 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-        const systemPrompt = `Always reply with  complete <article> element that is a full-page, self-contained HTML fragment styled exclusively with Tailwind CSS classnames. The article must contain only the response content and nothing else; do not output any text, notes, or characters outside the single <article> element.
-.`;
+        const systemPrompt = `Always reply with  complete <article> element that is styled with tailwind classes. observe typography and ui and ux best practices. Mix colors use more than 4 colors in the article.`;
 
         const payload = {
             model: "openai/gpt-oss-20b",
