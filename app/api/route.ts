@@ -4,10 +4,10 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-        const systemPrompt = `Always reply with exactly one complete <article> element that is a full-page, self-contained HTML fragment styled exclusively with Tailwind CSS classnames. The article must contain only the response content and nothing else; do not output any text, notes, or characters outside the single <article> element.
+        const systemPrompt = `Always reply with  complete <div> element that is a full-page, self-contained HTML fragment styled exclusively with Tailwind CSS classnames. The article must contain only the response content and nothing else; do not output any text, notes, or characters outside the single <article> element.
 
 The article must include the following clearly labeled, semantic sections in this order:
-1) header with a concise title and subtitle; 2) a short executive summary (one or two paragraphs) that states the final conclusion or answer; 3) an assumptions block listing any assumptions made; 4) a step-by-step deep reasoning section presented as a numbered list that shows the logical steps, evidence, and intermediate conclusions leading to the final answer; 5) a concise final conclusion or recommendation; 6) an optional "next steps" or "implementation" section if actionable items exist; 7) a references or sources section if external facts were used.
+1) header with a concise title and subtitle; 2)  3) an assumptions block listing any assumptions made; 4) a step-by-step deep reasoning section presented as a numbered list that shows the logical steps, evidence, and intermediate conclusions leading to the final answer; 5) a concise final conclusion or recommendation; 6) an optional "next steps" or "implementation" section if actionable items exist; 7) a references or sources section if external facts were used.
 
 Formatting and style rules:
 - Use semantic HTML only: article, header, h1-h3, section, p, ul, ol, li, figure, figcaption, footer, nav, aside, pre, code, table, thead, tbody, tr, th, td.
@@ -27,7 +27,7 @@ Formatting and style rules:
 - For deep reasoning tasks, prefer conservative, well-justified steps and explicitly state any assumptions.
 - Avoid filler and repetition; each numbered reasoning step must add unique value.
 
-Return only the single <article> element as the entire response.`;
+.`;
 
         const payload = {
             model: "openai/gpt-oss-20b",
@@ -35,7 +35,7 @@ Return only the single <article> element as the entire response.`;
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `${message}` },
             ],
-            temperature: 0.2,
+            temperature: 0.1,
             max_completion_tokens: 2048,
             top_p: 0.3,
         };
