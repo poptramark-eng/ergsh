@@ -12,9 +12,9 @@ export async function POST(request: NextRequest) {
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `${message}` },
             ],
-            temperature: 0.1,
-            max_completion_tokens: 2048,
-            top_p: 0.3,
+            temperature: 0.3,
+            max_completion_tokens: 6048,
+            top_p: 0.9,
         };
 
         const data = await fetch("https://api.groq.com/openai/v1/chat/completions", {
