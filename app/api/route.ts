@@ -22,7 +22,7 @@ Formatting and style rules:
 - Do not include inline scripts, event handlers, style tags, or external stylesheet links. Do not output any meta instructions, system notes, or developer commentary outside the single <article> element.
 - Ensure the returned HTML is valid JSX/TSX-compatible so it can be safely inserted into a React/Next.js component via dangerouslySetInnerHTML.
 
-Tone and reasoning:
+
 - Be precise, concise, and evidence-driven. Prioritize clarity and actionable conclusions.
 - For deep reasoning tasks, prefer conservative, well-justified steps and explicitly state any assumptions.
 - Avoid filler and repetition; each numbered reasoning step must add unique value.
