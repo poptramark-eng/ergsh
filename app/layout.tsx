@@ -32,7 +32,12 @@ export default function RootLayout({
         <nav className="bg-white shadow-md">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
             <h1 className="text-lg sm:text-xl font-bold text-blue-600 mb-4 sm:mb-0">
-              School ERP
+                          <Link
+                href="/"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                Home  Chart application
+              </Link>
             </h1>
             {/* Links visible on all screens, stacked on mobile */}
             <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 text-center sm:text-left">
