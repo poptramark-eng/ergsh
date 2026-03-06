@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-        const systemPrompt = `Always reply with  complete <article> element that is styled with tailwind classes. observe typography and ui and ux best practices. Mix colors use more than 4 colors in the article.`;
+        const systemPrompt = `Always reply with  complete <article> element that is styled with tailwind classes. observe typography and ui and ux best practices. Mix colors use more than 4 colors in the article. They should be mobile responsive. Use 1F1F1F for color, green for success red for danger, and all the colors to their correponding tasks`;
 
         const payload = {
             model: "openai/gpt-oss-20b",
