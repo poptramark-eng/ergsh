@@ -1,23 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+
+type ChatMessage = {
+  role: "user" | "assistant" | "error";
+  content: string;
+};
 
 export default function Chat() {
-  const [message, setMessage] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   async function sendMessage() {
-    if (!message.trim()) return;
+    if (!input.trim()) return;
+    const userMessage: ChatMessage = { role: "user", content: input.trim() };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
     setLoading(true);
-    setError("");
-    setResponse("");
 
     try {
       const req = await fetch("/api", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message.trim() }),
+        body: JSON.stringify({ message: userMessage.content }),
       });
 
       if (!req.ok) {
@@ -26,72 +32,135 @@ export default function Chat() {
       }
 
       const res = await req.json();
-      setResponse(res.message || "");
+      const assistantMessage: ChatMessage = {
+        role: "assistant",
+        content: res.message || "",
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred.");
+      const errorMessage: ChatMessage = {
+        role: "error",
+        content: err?.message || "An unexpected error occurred.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setLoading(false);
     }
   }
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   }
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center">
-      <div className="w-full max-w-3xl">
-        <header className="mb-6">
-          <h1 className="text-3xl font-extrabold text-gray-900">Chat application</h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Type a prompt and press <span className="font-medium">Enter</span> or click <span className="font-medium">Send</span>.
-          </p>
-        </header>
-
-        <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 mb-6">
-          <label htmlFor="chat-input" className="block text-sm font-medium text-gray-700 mb-2">
-            Your message
-          </label>
-
-          <div className="flex gap-3">
-            <input
-              id="chat-input"
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your message..."
-              className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              aria-label="Type your message"
-            />
-
-            <button
-              onClick={sendMessage}
-              disabled={loading}
-              className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              aria-disabled={loading}
+    <div
+      className="min-h-screen flex flex-col bg-white text-[#1f1f1f] antialiased font-sans"
+      style={{
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',
+      }}
+    >
+      {/* Chat messages */}
+      <div className="flex-1 overflow-y-auto flex flex-col justify-start pb-28 w-full">
+        {messages.map((msg, idx) => (
+          <div key={idx} className="w-full max-w-3xl mx-auto px-4">
+            <div
+              className={`my-4 ${
+                msg.role === "user"
+                  ? "flex justify-end"
+                  : msg.role === "assistant"
+                  ? "flex justify-start"
+                  : "flex justify-center"
+              }`}
             >
-              {loading ? "Sending..." : "Send"}
-            </button>
+              <div
+                className={`max-w-xs md:max-w-2xl break-words ${
+                  msg.role === "user"
+                    ? "bg-gray-100 px-4 py-2 rounded-lg text-right"
+                    : msg.role === "assistant"
+                    ? "bg-white px-3 py-2 rounded-lg shadow-sm"
+                    : ""
+                }`}
+                style={{
+                  // subtle typographic tuning per role
+                  fontSize:
+                    msg.role === "user"
+                      ? "0.95rem"
+                      : msg.role === "assistant"
+                      ? "1rem"
+                      : "0.9rem",
+                  fontWeight:
+                    msg.role === "user"
+                      ? 600
+                      : msg.role === "assistant"
+                      ? 400
+                      : 600,
+                  lineHeight: msg.role === "assistant" ? 1.6 : 1.4,
+                }}
+                dangerouslySetInnerHTML={
+                  msg.role === "assistant"
+                    ? { __html: msg.content }
+                    : undefined
+                }
+              >
+                {msg.role !== "assistant" ? (
+                  <span
+                    className={
+                      msg.role === "error"
+                        ? "text-red-600 text-sm font-medium"
+                        : ""
+                    }
+                  >
+                    {msg.content}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+            <hr className="border-gray-100" />
           </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
 
-          {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-        </section>
+      {/* Input bar pinned at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <div className="flex items-center gap-3 px-4 py-3 max-w-3xl mx-auto">
+          <textarea
+            id="chat-input"
+            value={input}
+            onChange={(e) => {
+              if (e.target.value.length <= 1000) {
+                setInput(e.target.value);
+              }
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your prompt..."
+            rows={1}
+            className="flex-1 resize-none overflow-hidden rounded-md px-3 py-2 text-base font-medium text-[#111827] bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-0"
+            aria-label="Type your message"
+            style={{ lineHeight: 1.5 }}
+          />
 
-        <section className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Response</h2>
-
-          <div className="prose max-w-none leading-relaxed text-gray-800 space-y-4">
-            {response ? (
-              <div dangerouslySetInnerHTML={{ __html: response }} />
-            ) : (
-              <p className="text-sm text-gray-500">No response yet. Send a message to receive a styled article.</p>
-            )}
-          </div>
-        </section>
+          <button
+            onClick={sendMessage}
+            disabled={loading}
+            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-lg font-semibold border border-black bg-white text-black hover:bg-black hover:text-white disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none"
+            aria-disabled={loading}
+          >
+            {loading ? "…" : "Send"}
+          </button>
+        </div>
+        <div className="text-right text-xs text-gray-500 max-w-3xl mx-auto px-4 pb-2">
+          <span className="font-medium">{input.length}</span>
+          <span className="ml-1">/1000</span>
+        </div>
       </div>
     </div>
   );

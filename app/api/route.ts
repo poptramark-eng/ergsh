@@ -4,17 +4,22 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-        const systemPrompt = `Always reply with  complete <article> element that is styled with tailwind classes. observe typography and ui and ux best practices. Mix colors use more than 4 colors in the article. They should be mobile responsive. Use 1F1F1F for color, green for success red for danger, and all the colors to their correponding tasks`;
+    const systemPrompt = `
+Always respond within tailwind styled <article> elements. Colors and bgs should pick from black, white, blue, pink, purple, yellow, o,red and green.  Every sentence text should use html semantics not just typing.Do not include TSX comments, metadata, or any extraneous text—only the response content should be visible.
+
+
+`;
+
 
         const payload = {
-            model: "openai/gpt-oss-20b",
+            model: "groq/compound",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `${message}` },
             ],
-            temperature: 0.3,
-            max_completion_tokens: 6048,
-            top_p: 0.9,
+            temperature: 0.2,
+            max_completion_tokens: 8192,
+            top_p: 0.8,
         };
 
         const data = await fetch("https://api.groq.com/openai/v1/chat/completions", {
