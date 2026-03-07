@@ -41,7 +41,7 @@ export default function RootLayout({
             </h1>
             {/* Links visible on all screens, stacked on mobile */}
             <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 text-center sm:text-left">
-             {/* <Link
+              <Link
                 href="/erp/details/schools"
                 className="text-gray-700 hover:text-blue-600"
               >
@@ -76,7 +76,7 @@ export default function RootLayout({
                 className="text-gray-700 hover:text-blue-600"
               >
                 Results
-              </Link>*/}
+              </Link>
             </div>
           </div>
         </nav>

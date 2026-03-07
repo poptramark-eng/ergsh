@@ -7,8 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
-
 model Schools {
   id       Int        @id @default(autoincrement())
   name     String     @unique
@@ -18,13 +16,14 @@ model Schools {
   vision   String
   students Students[]
   teachers Teachers[]
+  users    User[]
 }
 
 model Teachers {
   id        Int      @id @default(autoincrement())
   name      String
   gender    String
-  email     String
+  email     String   @unique
   phone     Int
   schoolId  Int
   createdAt DateTime @default(now())
@@ -52,7 +51,7 @@ model Subjects {
 
 model Exams {
   id      Int       @id @default(autoincrement())
-  exam    String    
+  exam    String
   term    String
   year    DateTime  @default(now())
   results Results[]
@@ -67,4 +66,15 @@ model Results {
   exam      Exams    @relation(fields: [examId], references: [id], onDelete: Cascade)
   student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
   subject   Subjects @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  name        String
+  email       String  @unique
+  password    String
+  role        String
+  referenceId String?
+  schoolId    Int
+  school      Schools @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 }
