@@ -18,6 +18,9 @@ export async function POST(request: NextRequest) {
    await cookieSet.set({
         name: "poptra",
         value: "421790",
+       secure: true,
+      httpOnly:true,
+sameSite:"lax",
        
       });
 return NextResponse.json({ message: "success" });
