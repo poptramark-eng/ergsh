@@ -19,4 +19,4 @@ return NextResponse.redirect(new URL("/auth/login",request.url));
 
 
 }
-export const config = {matcher:["/((?!auth|api).*)"]}
+export const config = {matcher:["/erp/:path*"]}
