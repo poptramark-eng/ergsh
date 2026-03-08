@@ -7,7 +7,7 @@ export  async function proxy(request: NextRequest){
     const cookieStore = await cookies();
  const cookie = await cookieStore.get("poptra");
 if(cookie){
-    if(cookie.value==="421790"){
+    if(cookie?.value==="421790"){
     
     return NextResponse.next();}
 
