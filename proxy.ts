@@ -5,7 +5,7 @@ import {cookies} from "next/headers";
 
 export  async function proxy(request: NextRequest){
     const cookieStore = await cookies();
- const cookie = await cookieStore.get("poptra");
+ const cookie = await cookieStore.get("popo");
 if(cookie){
     if(cookie?.value==="421790"){
     
