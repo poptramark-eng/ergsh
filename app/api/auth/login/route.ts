@@ -16,11 +16,11 @@ export async function POST(request: NextRequest) {
      if(verify){
       const cookieSet = await cookies();
     cookieSet.set({
-        name: "introspecitin",
+        name: "intro",
         value: "5612",
         httpOnly: true,
         sameSite: "lax",
-        secure:false,
+        secure:true,
         path:"/",
       });
 return NextResponse.json({ message: "success" });

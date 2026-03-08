@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import {useRouter, useParams, useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 import  {  useEffect, useState } from "react";
 
 
@@ -91,7 +91,7 @@ return(
         <div>
           <label
             htmlFor="school"
-            className="block text-sm font-semibold text-gray-700 mb-2"
+           
           >
             Select School
           </label>
@@ -99,7 +99,7 @@ return(
             name="schoolId"
             id="schoolId"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+           
           >
             
             {school&&school.map((s) => (
@@ -122,9 +122,3 @@ return(
 
 
 }
-/* name: name as string,
-        email: email as string,
-        schoolId: Number(schoolId),
-        password: password,
-        role: role,
-    }})*/

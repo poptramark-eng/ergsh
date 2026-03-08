@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 
 export async function proxy(request: NextRequest){
- const cookie = request.cookies.get("introspecitin");
+ const cookie = request.cookies.get("intro");
 if(cookie){
     if(cookie.value==="5612"){
     
