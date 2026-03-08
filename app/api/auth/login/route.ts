@@ -15,13 +15,10 @@ export async function POST(request: NextRequest) {
      const verify =  await  bcrypt.compare(password, user.password);
      if(verify){
       const cookieSet = await cookies();
-    cookieSet.set({
-        name: "intro",
-        value: "5612",
-        httpOnly: true,
-        sameSite: "lax",
-        secure:true,
-        path:"/",
+   await cookieSet.set({
+        name: "poptra",
+        value: "421790",
+       
       });
 return NextResponse.json({ message: "success" });
      }

@@ -1,15 +1,17 @@
 import { NextResponse, NextRequest } from "next/server";
 import { redirect } from "next/navigation";
+import {cookies} from "next/headers";
 
 
-export async function proxy(request: NextRequest){
- const cookie = request.cookies.get("intro");
+export  async function proxy(request: NextRequest){
+    const cookieStore = await cookies();
+ const cookie = cookieStore.get("poptra")?.value;
 if(cookie){
-    if(cookie.value==="5612"){
+    if(cookie==="421790"){
     
     return NextResponse.next();}
 
-    return redirect("/auth/login");
+    return NextResponse.redirect(new URL("/auth/login",request.url));
     }
 
 return NextResponse.redirect(new URL("/auth/login",request.url));
