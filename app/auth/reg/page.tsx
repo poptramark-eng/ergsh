@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import  {  useEffect, useState } from "react";
@@ -69,9 +69,9 @@ return(
          />
     </div>
     <div>
-        <label htmlFor="text">role</label>
+        <label htmlFor="role">role</label>
         <input 
-        type="role"
+        type="text"
         id="role"
         name="role"
         defaultValue={"user"}
@@ -102,7 +102,7 @@ return(
            
           >
             
-            {school&&school.map((s) => (
+            {school.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
