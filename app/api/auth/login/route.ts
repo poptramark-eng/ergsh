@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
      if(verify){
       const cookieSet = await cookies();
    await cookieSet.set({
-        name: "chuxx",
+        name: "login",
         value: "421790",
        secure: true,
       httpOnly:true,
