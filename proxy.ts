@@ -5,9 +5,9 @@ import {cookies} from "next/headers";
 
 export  async function proxy(request: NextRequest){
     const cookieStore = await cookies();
- const cookie = await cookieStore.get("popo");
+ const cookie = await cookieStore.get("popo")?.value;
 if(cookie){
-    if(cookie?.value==="421790"){
+    if(cookie==="421790"){
     
     return NextResponse.next();}
 
