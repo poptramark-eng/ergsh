@@ -47,7 +47,7 @@ Always respond within tailwind styled <article> elements. Colors and bgs should 
     }
 }
 export async function GET(request: NextRequest){
-const cookie = await request.cookies.get("poptra");
+const cookie = await request.cookies.get("popo");
 
 if(cookie){
     return NextResponse.json({message: cookie?.value});
