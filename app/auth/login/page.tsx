@@ -20,7 +20,7 @@ const router = useRouter();
         method: "POST",
     });
     const results = await response.json();
-    response.ok?router.push("/"):alert(` ${results.message}`);
+    results.message==="success"?router.push("/"):alert(` ${results.message}`);
     
     
   }
