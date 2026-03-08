@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link";
 import {useRouter, useParams, useSearchParams} from "next/navigation";
 import  {  useEffect, useState } from "react";
 
@@ -39,7 +39,7 @@ useEffect(() => {
         method: "POST",
     });
     const results = await response.json();
-    results.message==="success"?router.push("/"):alert("unknown error.come back letter");
+    results.message==="success"?router.push("/auth/login"):alert("Registered > Proceed to login");
     
     
   }
@@ -102,7 +102,7 @@ return(
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
           >
             
-            {school.map((s) => (
+            {school&&school.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
@@ -113,6 +113,9 @@ return(
     <input type="submit" value="register" />
 </div>
     </form>
+    <div>
+      <Link href="/auth/login">Already registered. Login here</Link>
+    </div>
 </div>
 
 );

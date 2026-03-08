@@ -1,5 +1,6 @@
 
 import { NextResponse, NextRequest } from "next/server";
+import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
 
 import bcrypt from "bcrypt";
@@ -13,6 +14,15 @@ export async function POST(request: NextRequest) {
     if(user){
      const verify =  await  bcrypt.compare(password, user.password);
      if(verify){
+      const cookieSet = await cookies();
+    cookieSet.set({
+        name: "introspecitin",
+        value: "5612",
+        httpOnly: true,
+        sameSite: "lax",
+        secure:false,
+        path:"/",
+      });
 return NextResponse.json({ message: "success" });
      }
      else{

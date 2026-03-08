@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
     try {
@@ -44,4 +45,14 @@ Always respond within tailwind styled <article> elements. Colors and bgs should 
     } catch (err: any) {
         return NextResponse.json({ message: "", error: err?.message || "Unknown error" }, { status: 500 });
     }
+}
+export async function GET(request: NextRequest){
+const cookie = await request.cookies.get("introspecitin");
+
+if(cookie){
+    return NextResponse.json({message: cookie?.value});
+}
+const response=NextResponse.json({message: "not set"});
+
+return response;
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link";
 import {useRouter, useParams, useSearchParams} from "next/navigation";
 
 export default function Reg(){
@@ -19,7 +20,7 @@ const router = useRouter();
         method: "POST",
     });
     const results = await response.json();
-    results.message==="success"?router.push("/"):alert(` ${results.message}`);
+    response.ok?router.push("/"):alert(` ${results.message}`);
     
     
   }
@@ -55,6 +56,9 @@ return(
     <input type="submit" value="login" />
 </div>
     </form>
+        <div>
+      <Link href="/auth/reg">Create Account</Link>
+    </div>
 </div>
 
 );
