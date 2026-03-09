@@ -5,18 +5,7 @@ import { useRouter } from "next/navigation";
 export default function Result() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [schools, setSchools] = useState<
-    [
-      {
-        id: string;
-        name: string;
-        email: string;
-        phone: string;
-        motto: string;
-        vision: string;
-      }
-    ]
-  >();
+  
   const [students, setStudents] = useState<
     [
       {
@@ -72,9 +61,7 @@ export default function Result() {
   }
   useEffect(() => {
     async function relations() {
-      const school = await fetch("/api/erp/schools");
-      const school_array = await school.json();
-      setSchools(school_array.school);
+      
       const students = await fetch("/api/erp/students");
       const students_array = await students.json();
       setStudents(students_array.students);
@@ -92,29 +79,8 @@ export default function Result() {
       onSubmit={handleSubmit}
       className="max-w-lg mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg space-y-6 border border-gray-200"
     >
-      {/* School Select */}
-      <div>
-        <label
-          htmlFor="school"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Select School
-        </label>
-        <select
-          name="school"
-          id="school"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        >
-          <option value="">-- Choose a school --</option>
-          {schools &&
-            schools.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-        </select>
-      </div>
+      
+     
       <div>
         <label
           htmlFor="student"

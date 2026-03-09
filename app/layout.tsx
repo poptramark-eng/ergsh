@@ -40,7 +40,7 @@ export default function RootLayout({
             {/* Links */}
             <div className="flex flex-wrap gap-4 text-sm sm:text-base">
               <Link href="/grok" className="hover:text-blue-600">Grok</Link>
-              <Link href="/erp/details/schools" className="hover:text-blue-600">Schools</Link>
+              <Link href="/erp/details/schools" className="hover:text-blue-600">School Details</Link>
               <Link href="/erp/details/students" className="hover:text-blue-600">Students</Link>
               <Link href="/erp/details/teachers" className="hover:text-blue-600">Teachers</Link>
               <Link href="/erp/details/subjects" className="hover:text-blue-600">Subjects</Link>
