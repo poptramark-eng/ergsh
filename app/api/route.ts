@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
         const { message } = await request.json();
 
     const systemPrompt = `
-Always respond within tailwind styled <article> elements. Colors and bgs should pick from black, white, blue, pink, purple, yellow, o,red and green.  Every sentence text should use html semantics not just typing.Do not include TSX comments, metadata, or any extraneous text—only the response content should be visible.
+Always respond within tailwind styled <article> and tailwind syled nested elements. 
 
 
 `;
@@ -47,10 +47,12 @@ Always respond within tailwind styled <article> elements. Colors and bgs should 
     }
 }
 export async function GET(request: NextRequest){
-const cookie = await request.cookies.get("popo");
+const cookie = await request.cookies.get("login");
+const d = new Date();
+const v = String(d.getDate);
 
 if(cookie){
-    return NextResponse.json({message: cookie?.value});
+    return NextResponse.json({message: cookie?.value, tarehe: d.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/')});
 }
 const response=NextResponse.json({message: "not set"});
 

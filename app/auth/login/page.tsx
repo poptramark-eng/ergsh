@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import {useRouter, useParams, useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export default function Reg(){
 const router = useRouter();
@@ -20,7 +20,7 @@ const router = useRouter();
         method: "POST",
     });
     const results = await response.json();
-    results.message==="success"?(window.location.href='/'):alert(` ${results.message}`);
+    results.message==="success"?(window.location.href='/'):(alert(` wrong password or email`));
     
     
   }

@@ -60,50 +60,15 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div
-      className="min-h-screen flex flex-col bg-white text-[#1f1f1f] antialiased font-sans"
-      style={{
-        fontFamily:
-          'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',
-      }}
-    >
+    <div>
       {/* Chat messages */}
       <div className="flex-1 overflow-y-auto flex flex-col justify-start pb-28 w-full">
         {messages.map((msg, idx) => (
           <div key={idx} className="w-full max-w-3xl mx-auto px-4">
-            <div
-              className={`my-4 ${
-                msg.role === "user"
-                  ? "flex justify-end"
-                  : msg.role === "assistant"
-                  ? "flex justify-start"
-                  : "flex justify-center"
-              }`}
-            >
+            <div>
               <div
-                className={`max-w-xs md:max-w-2xl break-words ${
-                  msg.role === "user"
-                    ? "bg-gray-100 px-4 py-2 rounded-lg text-right"
-                    : msg.role === "assistant"
-                    ? "bg-white px-3 py-2 rounded-lg shadow-sm"
-                    : ""
-                }`}
-                style={{
-                  // subtle typographic tuning per role
-                  fontSize:
-                    msg.role === "user"
-                      ? "0.95rem"
-                      : msg.role === "assistant"
-                      ? "1rem"
-                      : "0.9rem",
-                  fontWeight:
-                    msg.role === "user"
-                      ? 600
-                      : msg.role === "assistant"
-                      ? 400
-                      : 600,
-                  lineHeight: msg.role === "assistant" ? 1.6 : 1.4,
-                }}
+               
+              
                 dangerouslySetInnerHTML={
                   msg.role === "assistant"
                     ? { __html: msg.content }
@@ -111,13 +76,7 @@ export default function Chat() {
                 }
               >
                 {msg.role !== "assistant" ? (
-                  <span
-                    className={
-                      msg.role === "error"
-                        ? "text-red-600 text-sm font-medium"
-                        : ""
-                    }
-                  >
+                  <span>
                     {msg.content}
                   </span>
                 ) : null}
@@ -130,8 +89,8 @@ export default function Chat() {
       </div>
 
       {/* Input bar pinned at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-        <div className="flex items-center gap-3 px-4 py-3 max-w-3xl mx-auto">
+      <div>
+        <div>
           <textarea
             id="chat-input"
             value={input}
