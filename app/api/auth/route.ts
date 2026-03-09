@@ -5,24 +5,23 @@ import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 
 
-export async function POST(request: NextRequest){
-
-   const {role, email, name, schoolId, password}=await request.json();
-    
-
+export async function POST(request: NextRequest) {
+  const { name, role, password, email,schname, schemail, phone, motto, vision } = await request.json();
   try {
-    const user = await prisma.user.create({data:{
-        name: name as string,
-        email: email as string,
-        schoolId: Number(schoolId),
-        password: await bcrypt.hash(password, 10),
-        role: role,
-    }})
+    const school = await prisma.schools.create({
+      data: {
+        name: schname,
+        email: schemail,
+        phone: Number(phone),
+        motto: motto,
+        vision: vision,
+        users: {create: [{name: name, email:email,role: role, password: await bcrypt.hash(password, 10)}]}
+      },
+    });
 
-    return NextResponse.json({message: "success"});
+    return NextResponse.json({ message: "success" });
   } catch (error) {
-    
-    return NextResponse.json({message: "erro"});
+    return NextResponse.json({ message: JSON.stringify(error) });
   }
 }
 

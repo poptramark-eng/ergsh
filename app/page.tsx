@@ -1,126 +1,55 @@
+// app/page.tsx
 "use client";
-import { useState, useEffect, useRef } from "react";
 
-type ChatMessage = {
-  role: "user" | "assistant" | "error";
-  content: string;
-};
+import Link from "next/link";
 
-export default function Chat() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  async function sendMessage() {
-    if (!input.trim()) return;
-    const userMessage: ChatMessage = { role: "user", content: input.trim() };
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
-    setLoading(true);
-
-    try {
-      const req = await fetch("/api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage.content }),
-      });
-
-      if (!req.ok) {
-        const text = await req.text();
-        throw new Error(text || `API error: ${req.status}`);
-      }
-
-      const res = await req.json();
-      const assistantMessage: ChatMessage = {
-        role: "assistant",
-        content: res.message || "",
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err: any) {
-      const errorMessage: ChatMessage = {
-        role: "error",
-        content: err?.message || "An unexpected error occurred.",
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  }
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
+export default function LandingPage() {
   return (
-    <div>
-      {/* Chat messages */}
-      <div className="flex-1 overflow-y-auto flex flex-col justify-start pb-28 w-full">
-        {messages.map((msg, idx) => (
-          <div key={idx} className="w-full max-w-3xl mx-auto px-4">
-            <div>
-              <div
-               
-              
-                dangerouslySetInnerHTML={
-                  msg.role === "assistant"
-                    ? { __html: msg.content }
-                    : undefined
-                }
-              >
-                {msg.role !== "assistant" ? (
-                  <span>
-                    {msg.content}
-                  </span>
-                ) : null}
-              </div>
-            </div>
-            <hr className="border-gray-100" />
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Input bar pinned at bottom */}
-      <div>
-        <div>
-          <textarea
-            id="chat-input"
-            value={input}
-            onChange={(e) => {
-              if (e.target.value.length <= 1000) {
-                setInput(e.target.value);
-              }
-            }}
-            onKeyDown={handleKeyDown}
-            placeholder="Type your prompt..."
-            rows={1}
-            className="flex-1 resize-none overflow-hidden rounded-md px-3 py-2 text-base font-medium text-[#111827] bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-0"
-            aria-label="Type your message"
-            style={{ lineHeight: 1.5 }}
-          />
-
-          <button
-            onClick={sendMessage}
-            disabled={loading}
-            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-lg font-semibold border border-black bg-white text-black hover:bg-black hover:text-white disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none"
-            aria-disabled={loading}
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+      {/* Hero Section */}
+      <section className="text-center px-6">
+        <h1 className="text-5xl font-extrabold mb-4">
+          Welcome to My App
+        </h1>
+        <p className="text-lg mb-8 max-w-xl mx-auto">
+          A modern platform designed to make your workflow faster, smarter, and more enjoyable.
+        </p>
+        <div className="flex gap-4 justify-center">
+          <Link
+            href="/auth/login"
+            className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition"
           >
-            {loading ? "…" : "Send"}
-          </button>
+            Get Started
+          </Link>
+          <Link
+            href="/about"
+            className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition"
+          >
+            Learn More
+          </Link>
         </div>
-        <div className="text-right text-xs text-gray-500 max-w-3xl mx-auto px-4 pb-2">
-          <span className="font-medium">{input.length}</span>
-          <span className="ml-1">/1000</span>
+      </section>
+
+      {/* Features Section */}
+      <section className="mt-16 grid gap-8 md:grid-cols-3 px-6 max-w-5xl">
+        <div className="bg-white text-blue-600 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-2">Fast</h2>
+          <p>Optimized performance so you can get things done quickly.</p>
         </div>
-      </div>
-    </div>
+        <div className="bg-white text-blue-600 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-2">Smart</h2>
+          <p>Intelligent features that adapt to your needs.</p>
+        </div>
+        <div className="bg-white text-blue-600 rounded-lg shadow p-6">
+          <h2 className="text-xl font-bold mb-2">Reliable</h2>
+          <p>Built with stability and trust at its core.</p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="mt-20 text-sm text-gray-200">
+        © {new Date().getFullYear()} My App. All rights reserved.
+      </footer>
+    </main>
   );
 }

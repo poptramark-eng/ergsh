@@ -30,4 +30,4 @@ return NextResponse.redirect(new URL("/auth/login",request.url));
 
 
 }
-export const config = {matcher:[ '/erp/:path*']};
+export const config = {matcher:[ "/erp:path*", "/grok:path*"]};

@@ -22,15 +22,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  try{const cookieStore = await cookies();
-  const schoolId = await cookieStore.get("schoolID")?.value;
+  const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolId")?.value;
   const school = await prisma.schools.findMany(
     {where: {id:Number(schoolId)}});
 
   return NextResponse.json({ school });
-  }catch(error){
-return NextResponse.json({ error });
-  }
 }
 export async function DELETE(request: NextRequest) {
   const { id } = await request.json();

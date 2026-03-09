@@ -47,6 +47,6 @@ return NextResponse.json({ message: "success" });
     }
     
   } catch (error) {
-    return NextResponse.json({ message: "Application Error" });
+    return NextResponse.json({ message: "You are not registered. Please proceed to login" });
   }
 }
