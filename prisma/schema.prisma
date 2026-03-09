@@ -17,6 +17,8 @@ model Schools {
   students Students[]
   teachers Teachers[]
   users    User[]
+  subjects Subjects[]
+  exams    Exams[]
 }
 
 model Teachers {
@@ -45,16 +47,20 @@ model Students {
 model Subjects {
   id        Int       @id @default(autoincrement())
   name      String    @unique
+  schoolId  Int
   createdAt DateTime  @default(now())
   results   Results[]
+  school    Schools   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 }
 
 model Exams {
-  id      Int       @id @default(autoincrement())
-  exam    String
-  term    String
-  year    DateTime  @default(now())
-  results Results[]
+  id       Int       @id @default(autoincrement())
+  exam     String
+  term     String
+  schoolId Int
+  year     DateTime  @default(now())
+  results  Results[]
+  school   Schools   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 }
 
 model Results {

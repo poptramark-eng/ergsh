@@ -60,6 +60,8 @@ export async function PUT(request: NextRequest) {
 }
 /*
 import { cookies } from "next/headers";
-const cookieStore = await cookies();
+ const cookieStore = await cookies();
   const schoolId = await cookieStore.get("schoolId")?.value;
+  const school = await prisma.schools.findMany(
+    {where: {id:Number(schoolId)}});
   */

@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { cookies } from "next/headers"
 
 export async function POST(request: NextRequest) {
+  const cookieStore = await cookies();
+  const id = await cookieStore.get("schoolId");
+  const schoolId =id?.value;
   const { exam, term } = await request.json();
 
   try {
@@ -9,6 +13,7 @@ export async function POST(request: NextRequest) {
       data: {
         exam: exam,
         term: term,
+         schoolId: Number(schoolId),
       },
     });
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-
+import { cookies } from "next/headers";
 export async function POST(request: NextRequest) {
   const { subjectId, studentId, examId, score } = await request.json();
   try {
@@ -20,8 +20,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolId")?.value;
   const results = await prisma.results.findMany({
-
+where:{student: {schoolId: Number(schoolId)}},
     include: {
       student:{
         select:{name: true,school:{select:{name: true}}}}, 
@@ -71,3 +73,10 @@ export async function PUT(request: NextRequest) {
   student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
   subject   Subjects @relation(fields: [subjectId], references: [id], onDelete: Cascade)
 }*/
+/*
+import { cookies } from "next/headers";
+ const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolId")?.value;
+  const school = await prisma.schools.findMany(
+    {where: {id:Number(schoolId)}});
+  */
