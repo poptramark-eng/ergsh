@@ -10,6 +10,9 @@ export default function results() {
       subjectId: string;
       examId: string;
       score: string;
+      student: {name: string, school:{name: string}},
+      subject: {name: string},
+      exam: {exam: string}
     }[]
   >([]);
 
@@ -38,11 +41,10 @@ export default function results() {
         <table className="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
           <thead className="bg-blue-600 text-white">
             <tr>
-              <th className="px-4 py-3 text-left">ID</th>
-              <th className="px-4 py-3 text-left">StudentId</th>
-              <th className="px-4 py-3 text-left">subjectId</th>
-              <th className="px-4 py-3 text-left">Email</th>
-              <th className="px-4 py-3 text-left">examid</th>
+              <th className="px-4 py-3 text-left">School</th>
+              <th className="px-4 py-3 text-left">Student</th>
+              <th className="px-4 py-3 text-left">subject</th>
+              <th className="px-4 py-3 text-left">exam</th>
               <th className="px-4 py-3 text-left">score</th>
               <th className="px-4 py-3 text-center">Details</th>
               <th className="px-4 py-3 text-center">Delete</th>
@@ -53,13 +55,12 @@ export default function results() {
             {results.length > 0 ? (
               results.map((result) => (
                 <tr key={result.id} className="hover:bg-gray-100 transition">
-                  <td className="px-4 py-3">{result.id}</td>
+                  <td className="px-4 py-3">{result.student.school.name}</td>
                   <td className="px-4 py-3 font-medium text-gray-800">
-                    {result.id}
+                    {result.student.name}
                   </td>
-                  <td className="px-4 py-3">{result.studentId}</td>
-                  <td className="px-4 py-3">{result.subjectId}</td>
-                  <td className="px-4 py-3">{result.examId}</td>
+                  <td className="px-4 py-3">{result.subject.name}</td>
+                  <td className="px-4 py-3">{result.exam.exam}</td>
                   <td className="px-4 py-3">{result.score}</td>
 
                   <td className="px-4 py-3 text-center">

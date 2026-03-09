@@ -21,8 +21,13 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   const results = await prisma.results.findMany({
-    include: {student:true}
-  });
+
+    include: {
+      student:{
+        select:{name: true,school:{select:{name: true}}}}, 
+      subject:{select:{name:true} }, 
+      exam:{select:{exam:true}
+  }}});
 
   return NextResponse.json({ results });
 }
