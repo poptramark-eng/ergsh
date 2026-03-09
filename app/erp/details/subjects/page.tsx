@@ -41,7 +41,7 @@ export default function Subjects() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-gray-50">
-            {subjects.length > 0 ? (
+            {subjects? (
               subjects.map((subject) => (
                 <tr key={subject.id} className="hover:bg-gray-100 transition">
                   <td className="px-4 py-3">{subject.id}</td>

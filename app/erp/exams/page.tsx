@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Create() {
@@ -13,15 +13,15 @@ export default function Create() {
 
     const request = await fetch("/api/erp/exams", {
       method: "POST",
-      body: JSON.stringify({ exam: exam, term: term }),
+      body: JSON.stringify({ exam: exam, term: term, id: 1 }),
       headers: { "Content-Type": "application/json" },
     });
     const response = await request.json();
 
     const message = response.message;
     message !== "success"
-      ? alert("Exam exists")
-      : router.push("/erp/details/exams");
+      ? alert(message)
+      : (window.location.href="/erp/details/exams");
   }
 
   return (
@@ -45,21 +45,28 @@ export default function Create() {
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
         />
       </div>
-      <div>
-        <label
-          htmlFor="term"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          TERM
-        </label>
-        <input
-          type="text"
-          id="term"
-          name="term"
-          required
-          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200"
-        />
-      </div>
+ {/* Grade */}
+        <div>
+          <label
+            htmlFor="term"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Grade
+          </label>
+          <select
+            id="term"
+            name="term"
+            required
+            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+          >
+            <option value="">-- Select term --</option>
+            {Array.from({ length: 3 }, (_, i) => (
+              <option key={i + 1} value={"Term " + 1}>
+                Term {i + 1}
+              </option>
+            ))}
+          </select>
+        </div>
 
       <button
         type="submit"

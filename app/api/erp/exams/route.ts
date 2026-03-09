@@ -4,24 +4,28 @@ import { cookies } from "next/headers"
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
-  const id = await cookieStore.get("schoolId");
-  const schoolId =id?.value;
-  const { exam, term } = await request.json();
+  const schoolId = await cookieStore.get("schoolId")?.value;
+  const { exam, term , id} = await request.json();
 
   try {
     const school = await prisma.exams.create({
-      data: {
-        exam: exam,
+       data: {
+        schoolId: Number(schoolId),
         term: term,
-         schoolId: Number(schoolId),
-      },
+        exam: exam,
+
+       }
     });
 
     return NextResponse.json({ message: "success" });
   } catch (error) {
-    return NextResponse.json({ message: "error" });
+    return NextResponse.json({ message: term+exam });
   }
 }
+
+
+
+
 export async function DELETE(request: NextRequest) {
   const { id } = await request.json();
   try {
@@ -34,11 +38,28 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
+
+
+
+
 export async function GET() {
-  const exams = await prisma.exams.findMany();
+   const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolId")?.value;
+  try{
+    const exams = await prisma.exams.findMany({
+      where:{schoolId:Number(schoolId)}
+    });
+     
 
   return NextResponse.json({ exams });
+ 
+  }
+  catch(error){
+    return NextResponse.json({ message: JSON.stringify(error) });
+  }
 }
+
+
 
 export async function PUT(request: NextRequest) {
   const { id, exam, term } = await request.json();

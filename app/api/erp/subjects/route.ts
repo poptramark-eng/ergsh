@@ -23,7 +23,13 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  const subjects = await prisma.subjects.findMany();
+  const cookieStore = await cookies();
+  const id = await cookieStore.get("schoolId")?.value;
+  const subjects = await prisma.subjects.findMany({
+    where: {
+      schoolId: Number(id),
+    }
+  });
 
   return NextResponse.json({ subjects });
 }

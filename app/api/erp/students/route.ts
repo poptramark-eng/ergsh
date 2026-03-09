@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const cookieStore= await cookies();
   const id = await cookieStore.get("schoolId");
   const schoolId =id?.value;
   const students = await prisma.students.findMany({where: {schoolId: Number(schoolId)},
@@ -63,11 +64,3 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "Application Error" });
   }
 }
-/*
-import { cookies } from "next/headers";
- const cookieStore = await cookies();
-  const id = await cookieStore.get("schoolId");
-  const schoolId =id?.value;
-  const school = await prisma.schools.findMany(
-    {where: {id:Number(schoolId)}});
-  */

@@ -1,14 +1,4 @@
 -- CreateTable
-CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "name" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Schools" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -51,6 +41,7 @@ CREATE TABLE "Subjects" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "schoolId" INTEGER NOT NULL,
 
     CONSTRAINT "Subjects_pkey" PRIMARY KEY ("id")
 );
@@ -61,6 +52,7 @@ CREATE TABLE "Exams" (
     "exam" TEXT NOT NULL,
     "term" TEXT NOT NULL,
     "year" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "schoolId" INTEGER NOT NULL,
 
     CONSTRAINT "Exams_pkey" PRIMARY KEY ("id")
 );
@@ -76,8 +68,18 @@ CREATE TABLE "Results" (
     CONSTRAINT "Results_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "referenceId" TEXT,
+    "schoolId" INTEGER NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Schools_name_key" ON "Schools"("name");
@@ -86,16 +88,25 @@ CREATE UNIQUE INDEX "Schools_name_key" ON "Schools"("name");
 CREATE UNIQUE INDEX "Schools_email_key" ON "Schools"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Teachers_email_key" ON "Teachers"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Subjects_name_key" ON "Subjects"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Exams_exam_key" ON "Exams"("exam");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Teachers" ADD CONSTRAINT "Teachers_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "Schools"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Students" ADD CONSTRAINT "Students_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "Schools"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Subjects" ADD CONSTRAINT "Subjects_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "Schools"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Exams" ADD CONSTRAINT "Exams_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "Schools"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Results" ADD CONSTRAINT "Results_examId_fkey" FOREIGN KEY ("examId") REFERENCES "Exams"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -105,3 +116,6 @@ ALTER TABLE "Results" ADD CONSTRAINT "Results_studentId_fkey" FOREIGN KEY ("stud
 
 -- AddForeignKey
 ALTER TABLE "Results" ADD CONSTRAINT "Results_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subjects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "Schools"("id") ON DELETE CASCADE ON UPDATE CASCADE;

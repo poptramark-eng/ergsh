@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
-
+/*
 export async function POST(request: NextRequest) {
   const { name, email, phone, motto, vision } = await request.json();
   try {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ message: "Application Error" });
   }
-}
+}*/
 
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies();

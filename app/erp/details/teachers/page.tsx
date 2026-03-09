@@ -45,8 +45,6 @@ export default function Teachers() {
               <th className="px-4 py-3 text-left">Gender</th>
               <th className="px-4 py-3 text-left">Email</th>
               <th className="px-4 py-3 text-left">Phone</th>
-              <th className="px-4 py-3 text-left">School ID</th>
-              <th className="px-4 py-3 text-left">Created At</th>
               <th className="px-4 py-3 text-center">Details</th>
               <th className="px-4 py-3 text-center">Delete</th>
               <th className="px-4 py-3 text-center">Edit</th>
@@ -63,8 +61,6 @@ export default function Teachers() {
                   <td className="px-4 py-3">{teacher.gender}</td>
                   <td className="px-4 py-3">{teacher.email}</td>
                   <td className="px-4 py-3">{teacher.phone}</td>
-                  <td className="px-4 py-3">{teacher.schoolId}</td>
-                  <td className="px-4 py-3">{teacher.createdAt}</td>
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/teachers/${teacher.id}?gender=${teacher.gender}&email=${teacher.email}&schoolId=${teacher.schoolId}&phone=${teacher.phone}&name=${teacher.name}`}

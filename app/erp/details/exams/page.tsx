@@ -42,7 +42,7 @@ export default function Exams() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-gray-50">
-            {exams.length > 0 ? (
+            {exams? (
               exams.map((exam) => (
                 <tr key={exam.id} className="hover:bg-gray-100 transition">
                   <td className="px-4 py-3">{exam.id}</td>

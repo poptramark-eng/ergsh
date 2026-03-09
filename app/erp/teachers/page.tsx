@@ -4,16 +4,7 @@ import { useRouter } from "next/navigation";
 
 export default function Teachers() {
   const router = useRouter();
-  const [school, setSchool] = useState<
-    {
-      id: string;
-      name: string;
-      email: string;
-      phone: string;
-      motto: string;
-      vision: string;
-    }[]
-  >([]);
+  
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -22,7 +13,7 @@ export default function Teachers() {
 
     const form = new FormData(event.currentTarget);
     const teacher = {
-      schoolId: form.get("school"),
+      
       name: form.get("name") as string,
       gender: form.get("gender") as string,
       phone: form.get("phone") as string,
@@ -44,14 +35,7 @@ export default function Teachers() {
     setLoading(false);
   }
 
-  useEffect(() => {
-    async function fetchSchools() {
-      const schid = await fetch("/api/erp/schools");
-      const data = await schid.json();
-      setSchool(data.school);
-    }
-    fetchSchools();
-  }, []);
+
 
   return (
     <div className="max-w-lg mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
@@ -59,28 +43,7 @@ export default function Teachers() {
         Add Teacher
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* School Select */}
-        <div>
-          <label
-            htmlFor="school"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            School
-          </label>
-          <select
-            name="school"
-            id="school"
-            required
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-          >
-            <option value="">-- Select a school --</option>
-            {school.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </div>
+       
 
         {/* Name */}
         <div>
