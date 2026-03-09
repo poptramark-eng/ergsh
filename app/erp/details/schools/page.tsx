@@ -26,17 +26,10 @@ export default function Schools() {
   return (
     <div className="max-w-5xl mx-auto mt-12 p-10 bg-white rounded-2xl shadow-xl border border-gray-200">
       <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-10">
-        Registered Schools
+        School Details
       </h1>
 
-      <div className="flex justify-center mb-8">
-        <Link
-          href={`/erp/schools`}
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow hover:bg-blue-700 transition duration-200"
-        >
-          + Add School
-        </Link>
-      </div>
+
 
       {schools.length > 0 ? (
         <ul className="space-y-6">
@@ -84,7 +77,7 @@ export default function Schools() {
         </ul>
       ) : (
         <p className="text-center text-gray-500 italic mt-6">
-          No schools found.
+          School not found.
         </p>
       )}
     </div>

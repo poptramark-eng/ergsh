@@ -10,10 +10,10 @@ export async function GET(request: NextRequest) {
     const results = await prisma.schools.findUnique({
     
         where :{id: Number(id) },
-        select: {name: true}
+        select: {id: true}
     });
 
-    return NextResponse.json({ name: results?.name });
+    return NextResponse.json({ id: results?.id });
 }
 /*export async function GET(request: Request) {
     const ip =

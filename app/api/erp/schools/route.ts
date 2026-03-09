@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -20,10 +21,16 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
-  const school = await prisma.schools.findMany();
+export async function GET(request: NextRequest) {
+  try{const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolID")?.value;
+  const school = await prisma.schools.findMany(
+    {where: {id:Number(schoolId)}});
 
   return NextResponse.json({ school });
+  }catch(error){
+return NextResponse.json({ error });
+  }
 }
 export async function DELETE(request: NextRequest) {
   const { id } = await request.json();
@@ -54,3 +61,8 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ message: "Application Error" });
   }
 }
+/*
+import { cookies } from "next/headers";
+const cookieStore = await cookies();
+  const schoolId = await cookieStore.get("schoolId")?.value;
+  */

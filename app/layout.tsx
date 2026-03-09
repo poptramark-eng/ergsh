@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { refresh } from 'next/cache'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   title: "ERP System",
   description: "Manage schools, students, teachers, and exams",
 };
+
 
 export default function RootLayout({
   children,
@@ -76,6 +78,12 @@ export default function RootLayout({
                 className="text-gray-700 hover:text-blue-600"
               >
                 Results
+              </Link>
+              <Link
+                href="/auth/logout?id=pop"
+                className="text-gray-700 hover:text-blue-600"
+              >
+                logout
               </Link>
             </div>
           </div>

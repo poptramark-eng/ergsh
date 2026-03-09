@@ -47,7 +47,7 @@ Always respond within tailwind styled <article> and tailwind syled nested elemen
     }
 }
 export async function GET(request: NextRequest){
-const cookie = await request.cookies.get("login");
+const cookie = await request.cookies.get("schoolId");
 const d = new Date();
 const v = String(d.getDate);
 

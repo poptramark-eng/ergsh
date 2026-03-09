@@ -23,6 +23,22 @@ export async function POST(request: NextRequest) {
 sameSite:"lax",
        
       });
+      await cookieSet.set({
+        name: `schoolId`,
+        value: `${user.schoolId}`,
+       secure: true,
+      httpOnly:true,
+sameSite:"lax",
+       
+      });
+      await cookieSet.set({
+        name: "email",
+        value: email,
+       secure: true,
+      httpOnly:true,
+sameSite:"lax",
+       
+      });
 return NextResponse.json({ message: "success" });
      }
      else{

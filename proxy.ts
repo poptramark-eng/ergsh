@@ -1,14 +1,24 @@
 import { NextResponse, NextRequest } from "next/server";
+import prisma from "@/lib/prisma";
 
 import {cookies} from "next/headers";
 
 
 export  async function proxy(request: NextRequest){
     const cookieStore = await cookies();
-   ;
- const cookie = await cookieStore.get("machukhu12")?.value;
+   
+    const cookie = await cookieStore.get("schoolId")?.value;
 if(cookie){
-    if(cookie==="421790"){
+    const schoolId= Number(cookie);
+    const response = await prisma.schools.findUnique({
+        where: {id: schoolId},
+        select: {id: true}
+        });
+    
+    const id = response?.id as number;
+
+    
+    if(id){
     
     return NextResponse.next();}
 
@@ -20,4 +30,4 @@ return NextResponse.redirect(new URL("/auth/login",request.url));
 
 
 }
-export const config = {matcher:[ '/((?!api|auth|.*).*)']};
+export const config = {matcher:[ '/erp/:path*']};
