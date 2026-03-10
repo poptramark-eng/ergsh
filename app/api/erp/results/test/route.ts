@@ -27,7 +27,6 @@ const { scores}  = body;
   }
 }
 
-
 export async function GET() {
   const cookieStore = await cookies();
   const schoolId = await cookieStore.get("schoolId")?.value;
@@ -72,20 +71,3 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-/*model Results {
-  id        Int      @id @default(autoincrement())
-  studentId Int
-  subjectId Int
-  examId    Int
-  score     Int
-  exam      Exams    @relation(fields: [examId], references: [id], onDelete: Cascade)
-  student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  subject   Subjects @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-}*/
-/*
-import { cookies } from "next/headers";
- const cookieStore = await cookies();
-  const schoolId = await cookieStore.get("schoolId")?.value;
-  const school = await prisma.schools.findMany(
-    {where: {id:Number(schoolId)}});
-  */

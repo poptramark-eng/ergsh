@@ -1,195 +1,157 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
-export default function Result() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  
-  const [students, setStudents] = useState<
-    [
-      {
-        id: string;
-        name: string;
-        gender: string;
-        dob: string;
-        schoolId: string;
-        grade: string;
-      }
-    ]
-  >();
-  const [subjects, setSubjects] = useState<
-    [
-      {
-        id: string;
-        name: string;
-      }
-    ]
-  >();
-  const [exams, setExams] = useState<
-    [
-      {
-        id: string;
-        exam: string;
-        term: string;
-        year: string;
-      }
-    ]
-  >();
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const result = {
-      examId: form.get("examId"),
-      studentId: form.get("studentId"),
-      subjectId: form.get("subjectId"),
-      score: form.get("score"),
-    };
+import { useEffect, useState } from "react";
 
-    const request = await fetch("/api/erp/results", {
-      method: "POST",
-      body: JSON.stringify(result),
-      headers: { "Content-Type": "application/json" },
-    });
-    const response = await request.json();
-    const message = response.message;
-    message !== "success"
-      ? alert(message)
-      : router.push("/erp/details/results");
+export default function Newresults() {
+  const [students, setStudents] = useState<{ name: string; id: string; grade: string }[]>();
+  const [exam, setExam] = useState<string>();
+  const [grade, setGrade] = useState<string>();
+  const [student, setStudent] = useState<string>();
+  const [subjects, setSubjects] = useState<{ name: string; id: string }[]>();
+  const [exams, setExams] = useState<{ id: string; exam: string }[]>();
+  const options = [
+    "Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6",
+    "Grade 7","Grade 8","Grade 9","Grade 10","Grade 11","Grade 12"
+  ];
 
-    setLoading(false);
-  }
   useEffect(() => {
     async function relations() {
-      
       const students = await fetch("/api/erp/students");
       const students_array = await students.json();
-      setStudents(students_array.students);
+      let graded;
+      grade
+        ? (graded = students_array.students.filter(
+            (s: { name: string; id: string; grade: string }) => s.grade === `${grade}`
+          ))
+        : "";
+      graded ? setStudents(graded) : "";
+
       const subject = await fetch("/api/erp/subjects");
       const subject_array = await subject.json();
       setSubjects(subject_array.subjects);
+
       const exams = await fetch("/api/erp/exams");
       const exams_array = await exams.json();
       setExams(exams_array.exams);
     }
     relations();
-  }, []);
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-lg mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg space-y-6 border border-gray-200"
-    >
-      
-     
-      <div>
-        <label
-          htmlFor="student"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Select student
-        </label>
-        <select
-          name="studentId"
-          id="studentId"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        >
-          <option value="">-- Choose a student --</option>
-          {students &&
-            students.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div>
-        <label
-          htmlFor="exam"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Select exam
-        </label>
-        <select
-          name="examId"
-          id="examId"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        >
-          <option value="">-- Choose a exam --</option>
-          {exams &&
-            exams.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.exam}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div>
-        <label
-          htmlFor="subject"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          Select subject
-        </label>
-        <select
-          name="subjectId"
-          id="subjectId"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        >
-          <option value="">-- Choose a subject --</option>
-          {subjects &&
-            subjects.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div>
-        <label
-          htmlFor="score"
-          className="block text-sm font-semibold text-gray-700 mb-2"
-        >
-          score
-        </label>
-        <input
-          type="number"
-          min={0}
-          max={100}
-          id="score"
-          name="score"
-          required
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-        />
-      </div>
+  }, [grade]);
 
-      <button
-        type="submit"
-        disabled={loading}
-        className={`w-full font-semibold py-3 px-4 rounded-lg transition ${
-          loading
-            ? "bg-gray-400 text-gray-100 cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-300"
-        }`}
-      >
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-    </form>
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    let scores;
+    subjects
+      ? (scores = subjects.map((s) => {
+          return {
+            examId: Number(form.get("examId")),
+            studentId: Number(form.get("studentId")),
+            subjectId: Number(s.id),
+            score: Number(form.get(s.name)),
+          };
+        }))
+      : "";
+    const request = await fetch("/api/erp/results/test", {
+      method: "POST",
+      body: JSON.stringify({ scores: scores }),
+    });
+    const response = await request.json();
+    response.message === "success"
+      ? (window.location.href = "/erp/details/results")
+      : alert(`${response.message}`);
+  }
+
+  return (
+    <section className="p-6 bg-gray-50 min-h-screen">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
+        
+        <div className="flex flex-col">
+          <label htmlFor="grade" className="mb-2 font-medium text-gray-700">Grade</label>
+          <select
+            onChange={(e) => setGrade(e.target.value)}
+            value={grade ? grade : ""}
+            name="grade"
+            id="grade"
+            className="border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
+          >
+            {options.map((grade, index) => (
+              <option value={grade} key={index}>{grade}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="studentId" className="mb-2 font-medium text-gray-700">Student</label>
+          <select
+            onChange={(e) => setStudent(e.target.value)}
+            value={student ? student : ""}
+            name="studentId"
+            id="studentId"
+            className="border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
+          >
+            {students
+              ? students.map((s, index: any) => (
+                  <option value={s.id} key={index}>{s.name}</option>
+                ))
+              : ""}
+          </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="examId" className="mb-2 font-medium text-gray-700">Exam</label>
+          <select
+            onChange={(e) => setExam(e.target.value)}
+            value={exam ? exam : ""}
+            name="examId"
+            id="examId"
+            className="border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
+          >
+            {exams
+              ? exams.map((s, index: any) => (
+                  <option value={s.id} key={index}>{s.exam}</option>
+                ))
+              : ""}
+          </select>
+        </div>
+
+        {subjects && (
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-300 rounded-md">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-4 py-2 text-left font-medium text-gray-700 border-b">Subject</th>
+                  <th className="px-4 py-2 text-left font-medium text-gray-700 border-b">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subjects.map((sub) => (
+                  <tr key={sub.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 border-b">{sub.name}</td>
+                    <td className="px-4 py-2 border-b">
+                      <input
+                        id={sub.name}
+                        name={sub.name}
+                        type="number"
+                        min={0}
+                        max={100}
+                        className="w-24 border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <div>
+          <input
+            type="submit"
+            value="Add Result"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
+          />
+        </div>
+      </form>
+    </section>
   );
 }
-/*const request = await fetch("/api/erp/results", {
-      method: "POST",
-      body: JSON.stringify(result),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const response = await request.json();
-    const message = response.message;
-    message !== "success"
-      ? alert(message)
-      : router.push("/erp/details/teachers");
-
-    setLoading(false);
-  }*/
