@@ -46,6 +46,7 @@ export default function RootLayout({
               <Link href="/erp/details/subjects" className="hover:text-blue-600">Subjects</Link>
               <Link href="/erp/details/exams" className="hover:text-blue-600">Exams</Link>
               <Link href="/erp/details/results" className="hover:text-blue-600">Results</Link>
+              <Link href="/test" className="hover:text-blue-600">Test Results</Link>
               <Link href="/auth/logout?id=pop" className="hover:text-red-600 font-medium">Logout</Link>
             </div>
           </div>
