@@ -26,7 +26,7 @@ export async function GET() {
 where:{student: {schoolId: Number(schoolId)}},
     include: {
       student:{
-        select:{name: true,school:{select:{name: true}}}}, 
+        select:{name: true,id:true,school:{select:{name: true}}}}, 
       subject:{select:{name:true} }, 
       exam:{select:{exam:true}
   }}});

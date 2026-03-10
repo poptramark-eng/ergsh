@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
         value: "421790",
        secure: true,
       httpOnly:true,
+      maxAge: 60*60*24,
 sameSite:"lax",
        
       });
