@@ -27,26 +27,7 @@ const [results , setResults]= useState<{ id: string,
             
         }}[]>();
 
-        const [fresults , setFresults]= useState<{ id: string, 
-        studentId: string,
-         subjectId: string, 
-         examId: string, 
-         score: string,
-        student: {
-            name: string, 
-            id: string,
-            grade: string,
-        }, 
-        subject: {
-            name: string
-        }, 
-        exam: {
-            exam: string,
-            term: string,
-            year: string,
-        
-            
-        }}[]>();
+        const [fresults , setFresults]= useState<any[]>();
 
 const terms=["Term 1", "Term 2", "Term 3"];
 const grades= ["Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10","Grade 11","Grade 12"];
@@ -56,6 +37,8 @@ const [term, setTerm]=useState<string>();
 
 const [year, setYear]=useState<string>();
 const [years, setYears]=useState<string[]>();
+
+const [cols, setCols]=useState<string[]>();
 
 
 
@@ -82,7 +65,7 @@ useEffect(()=>{
    const flt = results?(results.filter((e)=> {
     const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
    return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];
-   setFresults(flt);
+   
           // alert(JSON.stringify(flt));
         
         
@@ -91,7 +74,6 @@ const {score, student, exam, subject, studentId}=curr;
 if(!acc[studentId]){
     acc[studentId]={
 name: student.name,
-score: score,
 id: studentId,
 grade: student.grade,
 subjects: [],
@@ -113,9 +95,14 @@ return acc;
 
         }, {});
         //end of reduce
+        setFresults(Object.values(flattened));
+        const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
+        const cleaned = Object.values(flattened);
+        const sorted = cleaned.sort((a: any,b: any)=>Number(a.total)-Number(b.total));
+        setCols(subjs);
         
         
-        alert(JSON.stringify(Object.values(flattened)));
+        
         }
 }, [grade]);
 
@@ -157,35 +144,100 @@ useEffect(()=>{
 
 
 
-return (<div>
-    
-    <select onChange={e=> setYear(e.target.value)}  value={year??new Date().toLocaleDateString()} name="exam" id="exam">
-        <option value="">--select year--</option>
-    {years&&years.map((s,index)=><option value={s} key={index}>{s}</option>)}
-    
-    
-</select>
-    {(year)&&<select onChange={e=> setTerm(e.target.value)} value={term??"No terms"} name="exam" id="exam">
-         <option value="">--select Term--</option>
-    {terms.map((s,index)=><option value={s} key={index}>{s}</option>)}
-</select>}
 
 
-{(term)&&<select onChange={e=> setExam(e.target.value)} name="exam" value={exam??"No exams available"} id="exam">
-     <option value="">--select Exam--</option>
-    {exams&&exams.map((s,index)=><option value={s} key={index}>{s}</option>)}
-</select>}
+  return (
+    <div className="p-6 bg-gray-50 rounded-lg">
+      {/* Dropdowns */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <select
+          onChange={e => setYear(e.target.value)}
+          value={year ?? ""}
+          className="px-3 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">--select year--</option>
+          {years && years.map((s, index) => (
+            <option value={s} key={index}>{s}</option>
+          ))}
+        </select>
 
+        {year && (
+          <select
+            onChange={e => setTerm(e.target.value)}
+            value={term ?? ""}
+            className="px-3 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">--select Term--</option>
+            {terms.map((s, index) => (
+              <option value={s} key={index}>{s}</option>
+            ))}
+          </select>
+        )}
 
- {(exam)&&<select onBlur={e=>setGrade("")} onChange={e=> setGrade(e.target.value)} value={grade??"No terms"} name="exam" id="exam">
-         <option value="">--select Grade--</option>
-    {grades.map((s,index)=><option value={s} key={index}>{s}</option>)}
-</select>}
+        {term && (
+          <select
+            onChange={e => setExam(e.target.value)}
+            value={exam ?? ""}
+            className="px-3 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">--select Exam--</option>
+            {exams && exams.map((s, index) => (
+              <option value={s} key={index}>{s}</option>
+            ))}
+          </select>
+        )}
 
+        {exam && (
+          <select
+            onChange={e => setGrade(e.target.value)}
+            onBlur={e=>setGrade("")}
+            value={grade ?? ""}
+            className="px-3 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">--select Grade--</option>
+            {grades.map((s, index) => (
+              <option value={s} key={index}>{s}</option>
+            ))}
+          </select>
+        )}
+      </div>
 
-
-{fresults&&(JSON.stringify(fresults))}
-
-</div>);
-
+      {/* Results table */}
+      <div className="overflow-x-auto">
+        {fresults && (
+          <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2 text-left font-semibold">ADM</th>
+                <th className="px-4 py-2 text-left font-semibold">Name</th>
+                <th className="px-4 py-2 text-left font-semibold">Total</th>
+                <th className="px-4 py-2 text-left font-semibold">Average</th>
+                <th className="px-4 py-2 text-left font-semibold">Rank</th>
+                {cols && cols.map((s, index) => (
+                  <th key={index} className="px-4 py-2 text-left font-semibold">{s}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {cols && fresults && fresults.map((s, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="px-4 py-2">{s.id}</td>
+                  <td className="px-4 py-2">{s.name}</td>
+                  <td className="px-4 py-2">{s.total}</td>
+                  <td className="px-4 py-2">{s.avg}</td>
+                  <td className="px-4 py-2">{index + 1}</td>
+                  {cols && cols.map((x, i) => (
+                    <td key={i} className="px-4 py-2">{s[x]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
 }
+
+
+
