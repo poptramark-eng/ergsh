@@ -1,5 +1,6 @@
 'use client';
 import {useState, useEffect} from "react";
+import Link from "next/link";
 
 
 
@@ -204,6 +205,12 @@ useEffect(()=>{
 
       {/* Results table */}
       <div className="overflow-x-auto">
+         <Link
+          href="/erp/results"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+        >
+          ➕ Add result
+        </Link>
         {fresults && (
           <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
             <thead className="bg-gray-100">
