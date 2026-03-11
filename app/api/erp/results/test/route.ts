@@ -36,7 +36,7 @@ where:{student: {schoolId: Number(schoolId)}},
       student:{
         select:{name: true,id:true,school:{select:{name: true}}}}, 
       subject:{select:{name:true} }, 
-      exam:{select:{exam:true}
+      exam:{select:{exam:true, term: true, year: true}
   }}});
 
   return NextResponse.json({ results });

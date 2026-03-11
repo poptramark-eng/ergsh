@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {Suspense} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Reg() {
+function Reg() {
   const router = useRouter();
+  const callback: any= useSearchParams().get("callback");
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,7 +21,7 @@ export default function Reg() {
     });
    try{ const results = await response.json();
     results.message === "success"
-      ? (window.location.href = "/")
+      ? (window.location.href = callback)
       : (alert(results.message));}catch(error){
         alert("!!!User not found , please Create account first");
       }
@@ -84,4 +86,9 @@ export default function Reg() {
       </div>
     </div>
   );
+}
+export default function Login(){
+return (<Suspense fallback={<p>..loading</p>}>
+  <Reg />
+</Suspense>)
 }

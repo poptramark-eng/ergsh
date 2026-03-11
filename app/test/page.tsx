@@ -85,6 +85,7 @@ export default function Test() {
   }, []);
 
   return (
+    <div>
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-lg shadow-md bg-white">
@@ -122,6 +123,7 @@ export default function Test() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }
