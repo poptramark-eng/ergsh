@@ -1,10 +1,13 @@
 'use client';
 import {useState, useEffect} from "react";
 import Link from "next/link";
+import * as EX from "xlsx";
 
 
 
 export default function Filter() {
+  const [url, setUrl]=useState<any>();
+  const [pop, setPop]=useState<any>();
 
 const [exams, setExams]=useState<string[]>();
 const [exam , setExam]= useState<string>();
@@ -61,15 +64,15 @@ setExams(exam);
     filter();
 
 },[]);
-useEffect(()=>{
+useEffect(()=>
+  {
     if(year&&term&&exam&&grade){
    const flt = results?(results.filter((e)=> {
     const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
    return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];
-   
-          // alert(JSON.stringify(flt));
+
         
-        
+      
 const flattened = flt.reduce((acc:any, curr)=>{
 const {score, student, exam, subject, studentId}=curr;
 if(!acc[studentId]){
@@ -96,49 +99,74 @@ return acc;
 
         }, {});
         //end of reduce
-        setFresults(Object.values(flattened));
+        
         const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
         const cleaned = Object.values(flattened);
-        const sorted = cleaned.sort((a: any,b: any)=>Number(a.total)-Number(b.total));
+        const sorted = cleaned.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
         setCols(subjs);
+        setFresults(sorted);
         
+        }
+}, [grade]);
+
+//pop-docs
+
+useEffect(()=>{
+    if(year&&term&&exam&&grade){
+   const flt = results?(results.filter((e)=> {
+    const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
+   return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];       
+        
+const flattened = flt.reduce((acc:any, curr)=>{
+const {score, student, exam, subject, studentId}=curr;
+if(!acc[studentId]){
+    acc[studentId]={
+name: student.name,
+id: studentId,
+grade: student.grade,
+exams: [],
+total: 0,
+avg: 0,
+count: 0,
+    }
+}
+//acc[studentId].scores.push([{[subject.name]: score}]);
+acc[studentId][subject.name]=score;
+acc[studentId].total += score;
+acc[studentId].count+=1;
+acc[student.id].avg=acc[studentId].total/acc[studentId].count;
+acc[student.id].exams.push(exam.exam);
+
+return acc;
+
+        }, {});
+        //end of reduce2
+        const cleaned = Object.values(flattened);
+        const sorted = cleaned.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
+        setPop(sorted);
+        
+const sheet = EX.utils.json_to_sheet(sorted);
+const workbook = EX.utils.book_new();
+EX.utils.book_append_sheet(workbook,sheet, "students" );
+const excelBuffer = EX.write(workbook, {type: "array", bookType:"xlsx"});
+const blob = new Blob([excelBuffer], {type:  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",});
+const url = URL.createObjectURL(blob);
+setUrl(url);
         
         
         }
 }, [grade]);
 
-
-
+//results initially
 useEffect(()=>{
-    async function Results(){
-        
-       
-
-       
-          
-             const request = await fetch("/api/erp/results/test"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
-
+    async function Results(){      
+  const request = await fetch("/api/erp/results"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
 const response= await request.json();
-
  const resultsx = response.results;
-            setResults(resultsx);
-        
-            
-            
-
-
-       
+            setResults(resultsx);       
     }
     Results();
-
 },[]);
-
-
-useEffect(()=>{
-
-
-},[ exam]);
- 
 
 
 
@@ -212,6 +240,8 @@ useEffect(()=>{
           ➕ Add result
         </Link>
         {fresults && (
+          <div>
+          
           <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
             <thead className="bg-gray-100">
               <tr>
@@ -240,8 +270,12 @@ useEffect(()=>{
               ))}
             </tbody>
           </table>
+          {fresults&&url&&<Link href={url}>Download results </Link>}
+          </div>
+          
         )}
       </div>
+      
     </div>
   );
 }
