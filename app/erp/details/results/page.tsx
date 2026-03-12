@@ -64,8 +64,10 @@ setExams(exam);
     filter();
 
 },[]);
+
+
 useEffect(()=>
-  {
+{
     if(year&&term&&exam&&grade){
    const flt = results?(results.filter((e)=> {
     const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
@@ -73,31 +75,26 @@ useEffect(()=>
 
         
       
-const flattened = flt.reduce((acc:any, curr)=>{
-const {score, student, exam, subject, studentId}=curr;
-if(!acc[studentId]){
-    acc[studentId]={
-name: student.name,
-id: studentId,
-grade: student.grade,
-subjects: [],
-exams: [],
-total: 0,
-avg: 0,
-count: 0,
-    }
-}
-//acc[studentId].scores.push([{[subject.name]: score}]);
-acc[studentId][subject.name]=score;
-acc[studentId].total += score;
-acc[studentId].count+=1;
-acc[student.id].avg=acc[studentId].total/acc[studentId].count;
-acc[student.id].subjects.push(subject.name);
-acc[student.id].exams.push(exam.exam);
+    const flattened = flt.reduce((acc:any, curr)=>{
+                      const {score, student, exam, subject, studentId}=curr;
+                      let marks = Number(score);
+                      if(!acc[studentId]){
+                      acc[studentId]={
+                      name: student.name,
+                      id: studentId,
+                      grade: student.grade,
+                      subjects: [],
+                      exams: [],
+                      }
+                          }
+                      //acc[studentId].scores.push([{[subject.name]: score}]);
+                      acc[studentId][subject.name]=marks;
+                      acc[studentId].subjects.push(subject.name);
+                      acc[studentId].exams.push(exam.exam);
 
-return acc;
+                      return acc;
 
-        }, {});
+                      }, {});
         //end of reduce1
         
         const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
@@ -112,58 +109,52 @@ return acc;
 //pop-docs
 
 useEffect(()=>{
-    if(year&&term&&exam&&grade){
-   const flt = results?(results.filter((e)=> {
-    const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
-   return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];       
+      if(year&&term&&exam&&grade){
+      const flt = results?(results.filter((e)=> {
+      const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
+      return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];       
         
-const flattened = flt.reduce((acc:any, curr)=>{
-const {score, student, exam, subject, studentId}=curr;
-if(!acc[studentId]){
-    acc[studentId]={
-name: student.name,
-id: studentId,
-grade: student.grade,
-exams: [],
-total: 0,
-avg: 0,
-    }
-}
+    const flattened = flt.reduce((acc:any, curr)=>{
+                      const {score, student, exam, subject, studentId}=curr;
+                      if(!acc[studentId]){
+                      acc[studentId]={
+                      name: student.name,
+                      id: studentId,
+                      grade: student.grade,
+                          }
+                      }
 
-acc[studentId][subject.name]=score;
-acc[studentId].total += score;
-acc[student.id].avg=acc[studentId].total/acc[studentId].count;
+                      acc[studentId][subject.name]=Number(score);
 
+                      return acc;
 
-return acc;
-
-        }, {});
+                       }, {});
         //end of reduce2
-        const cleaned = Object.values(flattened);
-        const sorted = cleaned.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
-        setPop(sorted);
-        
-const sheet = EX.utils.json_to_sheet(sorted);
-const workbook = EX.utils.book_new();
-EX.utils.book_append_sheet(workbook,sheet, "students" );
-const excelBuffer = EX.write(workbook, {type: "array", bookType:"xlsx"});
-const blob = new Blob([excelBuffer], {type:  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",});
-const url = URL.createObjectURL(blob);
-setUrl(url);
+        const cleaned = Object.values(flattened); //getting object values
+        setPop(cleaned);
+        alert(JSON.stringify(cleaned));
+        //excel workbook of filtered results by user
+        const sheet = EX.utils.json_to_sheet(cleaned);
+        const workbook = EX.utils.book_new();
+        EX.utils.book_append_sheet(workbook,sheet, "students" );
+        const excelBuffer = EX.write(workbook, {type: "array", bookType:"xlsx"});
+        const blob = new Blob([excelBuffer], {type:  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",});
+        const url = URL.createObjectURL(blob);
+        setUrl(url);
         
         
         }
-}, [grade]);
+}, [fresults]);
 
-//results initially
+//results fetching from database
 useEffect(()=>{
-    async function Results(){      
-  const request = await fetch("/api/erp/results"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
-const response= await request.json();
- const resultsx = response.results;
-            setResults(resultsx);       
+        async function Results(){      
+        const request = await fetch("/api/erp/results"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
+        const response= await request.json();
+        const resultsx = response.results;
+        setResults(resultsx);       
     }
-    Results();
+        Results();
 },[]);
 
 
@@ -217,7 +208,6 @@ const response= await request.json();
         {exam && (
           <select
             onChange={e => setGrade(e.target.value)}
-            onBlur={e=>setGrade("")}
             value={grade ?? ""}
             className="px-3 py-2 border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
@@ -245,9 +235,8 @@ const response= await request.json();
               <tr>
                 <th className="px-4 py-2 text-left font-semibold">ADM</th>
                 <th className="px-4 py-2 text-left font-semibold">Name</th>
-                <th className="px-4 py-2 text-left font-semibold">Total</th>
-                <th className="px-4 py-2 text-left font-semibold">Average</th>
-                <th className="px-4 py-2 text-left font-semibold">Rank</th>
+                
+
                 {cols && cols.map((s, index) => (
                   <th key={index} className="px-4 py-2 text-left font-semibold">{s}</th>
                 ))}
@@ -258,9 +247,6 @@ const response= await request.json();
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-4 py-2">{s.id}</td>
                   <td className="px-4 py-2">{s.name}</td>
-                  <td className="px-4 py-2">{s.total}</td>
-                  <td className="px-4 py-2">{s.avg}</td>
-                  <td className="px-4 py-2">{index + 1}</td>
                   {cols && cols.map((x, i) => (
                     <td key={i} className="px-4 py-2">{s[x]}</td>
                   ))}
