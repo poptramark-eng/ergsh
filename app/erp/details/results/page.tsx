@@ -98,7 +98,7 @@ acc[student.id].exams.push(exam.exam);
 return acc;
 
         }, {});
-        //end of reduce
+        //end of reduce1
         
         const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
         const cleaned = Object.values(flattened);
@@ -127,15 +127,13 @@ grade: student.grade,
 exams: [],
 total: 0,
 avg: 0,
-count: 0,
     }
 }
-//acc[studentId].scores.push([{[subject.name]: score}]);
+
 acc[studentId][subject.name]=score;
 acc[studentId].total += score;
-acc[studentId].count+=1;
 acc[student.id].avg=acc[studentId].total/acc[studentId].count;
-acc[student.id].exams.push(exam.exam);
+
 
 return acc;
 
