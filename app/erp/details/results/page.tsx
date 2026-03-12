@@ -39,6 +39,8 @@ const grades= ["Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grad
 const [grade, setGrade]=useState<string>();
 const [term, setTerm]=useState<string>();
 
+const [totals, setTotals]=useState<any>();
+
 const [year, setYear]=useState<string>();
 const [years, setYears]=useState<string[]>();
 
@@ -102,7 +104,7 @@ useEffect(()=>
         const sorted = cleaned.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
         setCols(subjs);
         setFresults(sorted);
-        
+        //use effet results
         }
 }, [grade]);
 
@@ -132,7 +134,7 @@ useEffect(()=>{
         //end of reduce2
         const cleaned = Object.values(flattened); //getting object values
         setPop(cleaned);
-        alert(JSON.stringify(cleaned));
+        
         //excel workbook of filtered results by user
         const sheet = EX.utils.json_to_sheet(cleaned);
         const workbook = EX.utils.book_new();
@@ -142,9 +144,12 @@ useEffect(()=>{
         const url = URL.createObjectURL(blob);
         setUrl(url);
         
-        
+        //end of useeffect for docs
         }
 }, [fresults]);
+
+
+
 
 //results fetching from database
 useEffect(()=>{
@@ -158,7 +163,20 @@ useEffect(()=>{
 },[]);
 
 
+useEffect(()=>{
+if(fresults&&cols){
+const totals = fresults.map((d)=>{
 
+const tots = cols.map(col=> Number(d[col]));
+const total = tots.reduce((total, initial)=> total+initial);
+
+return total;
+});
+setTotals(totals);
+
+
+}
+},[grade]);
 
 
 
@@ -227,7 +245,7 @@ useEffect(()=>{
         >
           ➕ Add result
         </Link>
-        {fresults && (
+        {(fresults&&totals) && (
           <div>
           
           <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
@@ -235,6 +253,7 @@ useEffect(()=>{
               <tr>
                 <th className="px-4 py-2 text-left font-semibold">ADM</th>
                 <th className="px-4 py-2 text-left font-semibold">Name</th>
+                <th className="px-4 py-2 text-left font-semibold">Total</th>
                 
 
                 {cols && cols.map((s, index) => (
@@ -243,10 +262,11 @@ useEffect(()=>{
               </tr>
             </thead>
             <tbody>
-              {cols && fresults && fresults.map((s, index) => (
+              {totals && fresults && fresults.map((s, index) => (
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-4 py-2">{s.id}</td>
                   <td className="px-4 py-2">{s.name}</td>
+                  <td className="px-4 py-2">{totals[index]}</td>
                   {cols && cols.map((x, i) => (
                     <td key={i} className="px-4 py-2">{s[x]}</td>
                   ))}
