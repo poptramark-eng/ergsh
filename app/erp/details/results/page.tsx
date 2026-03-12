@@ -176,7 +176,7 @@ setTotals(totals);
 
 
 }
-},[grade]);
+},[fresults]);
 
 
 
