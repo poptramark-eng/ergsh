@@ -21,7 +21,7 @@ function Reg() {
     });
    try{ const results = await response.json();
     results.message === "success"
-      ? (window.location.href = callback)
+      ? (window.location.href = "/")
       : (alert(results.message));}catch(error){
         alert("!!!User not found , please Create account first");
       }
