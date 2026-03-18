@@ -5,21 +5,17 @@ export async function POST(request: NextRequest) {
     try {
         const { message } = await request.json();
 
-    const systemPrompt = `
-Always respond within tailwind styled <article> and tailwind syled nested elements. 
-
-
-`;
+const systemPrompt = "Act as a specialized technical tutor. All responses must be wrapped in a mobile-first, responsive <article> using Tailwind CSS. Use specific utility classes for typography (leading-relaxed, max-w-prose), spacing (p-4 md:p-8, mb-6), and structural nesting to ensure high readability. Prioritize a seamless user experience by maintaining consistent padding, margins, and accessible text contrast.";
 
 
         const payload = {
-            model: "groq/compound",
+            model: "openai/gpt-oss-120b",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `${message}` },
             ],
             temperature: 0.2,
-            max_completion_tokens: 8192,
+            max_completion_tokens: 32000,
             top_p: 0.8,
         };
 

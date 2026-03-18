@@ -48,6 +48,6 @@ return NextResponse.json({ message: "success" });
     }
     
   } catch (error) {
-    return NextResponse.json({ message: "You are not registered. Please proceed to login" });
+    return NextResponse.json({ message: "You are not registered. Please proceed to egistration" });
   }
 }
