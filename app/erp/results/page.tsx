@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import Template  from "@/app/components/xlsx/students_template/page";
+import Upload from "@/app/components/xlsx/results_upload/page";
 
 
 export default function Newresults(){
@@ -47,11 +49,7 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
       subjectId: Number(s.id),
       score: Number(form.get(s.name)),}
     })):"";
-    const results = {
-      
-      scores
-
-    };
+    
     const request = await fetch("/api/erp/results", {method: "POST", body:JSON.stringify({scores: scores})});
     const response= await request.json();
     response.message==="success"?window.location.href="/erp/details/results":alert(`${response.message}`);
@@ -61,6 +59,9 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
 };
 
 return (<section className="p-6 bg-gray-50 rounded-lg shadow-md">
+  <Template />
+  <Upload />
+
   <form onSubmit={handleSubmit} className="space-y-6">
     {/* Grade */}
     <div>

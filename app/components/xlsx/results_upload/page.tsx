@@ -4,8 +4,7 @@ import { useState,useEffect } from "react";
 import * as XLSX from "xlsx";
 
 export default function Upload(){
-    const [data, setData] =useState<{}[]>();
-    const [scores, setScores]=useState<any>();
+
     
 
 async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
@@ -24,7 +23,7 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
         const json: {}[] =XLSX.utils.sheet_to_json(sheet);
         clean(json);
 
-        setData(json);
+        
     };
     reader.readAsArrayBuffer(file);
 
@@ -65,7 +64,7 @@ async function clean(json: any){
                     <input type="submit" value="upload" />
                 </div>
             </form>
-        {scores&&JSON.stringify(scores)}
+        
         </div>
     );
 }
