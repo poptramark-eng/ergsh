@@ -31,4 +31,4 @@ return NextResponse.redirect(new URL(`/auth/login?callback=${url}`,request.url))
 
 
 }
-export const config = {matcher:[ "/erp:path*", "/grok:path*","/test:path*"]};
+export const config = {matcher:[ "/erp:path*", "/xlsx:path*","/grok:path*","/test:path*"]};
