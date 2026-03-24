@@ -7,3 +7,20 @@ body {
  
   font-family:  sans-serif;
 }
+.loader-area{
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.loader{
+  width: 60px;
+  height: 60px;
+  border: 6px solid #197;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: rot 0.5s linear infinite;
+}
+@keyframes rot {
+  100%{transform: rotate(360deg)};
+}

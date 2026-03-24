@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import {Suspense} from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {useSearchParams } from "next/navigation";
 
 function Reg() {
-  const router = useRouter();
-  const callback: any= useSearchParams().get("callback");
+  
+  const id= useSearchParams().get("id");
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -21,7 +21,7 @@ function Reg() {
     });
    try{ const results = await response.json();
     results.message === "success"
-      ? (window.location.href = "/")
+      ? (window.location.href = `${id}`)
       : (alert(results.message));}catch(error){
         alert("!!!User not found , please Create account first");
       }

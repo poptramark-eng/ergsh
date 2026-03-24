@@ -55,7 +55,7 @@ export default function RootLayout({
               <Link href="/erp/results" className="hover:text-red-600 font-medium">Add results</Link>
               <Link href="/erp/edit" className="hover:text-red-600 font-medium">Edit results</Link>
               <Link href="/grok" className="hover:text-blue-600">Ask AI</Link>
-              <Link href="/auth/logout" className="hover:text-red-600 font-medium">Logout</Link>
+              <Link href="/auth/logout?id=/" className="hover:text-red-600 font-medium">Logout</Link>
             </div>
           </div>
         </nav>

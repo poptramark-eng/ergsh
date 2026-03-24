@@ -26,7 +26,7 @@ if(cookie){
     }
 
     const url = request.nextUrl.pathname;
-return NextResponse.redirect(new URL(`/auth/login?callback=${url}`,request.url));
+return NextResponse.redirect(new URL(`/auth/login?id=${url}`,request.url));
 
 
 

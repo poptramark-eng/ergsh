@@ -9,7 +9,7 @@ const id  = search.get("id");
 
 if (id){
     
-   confirm("Are you sure you want to logout?")&&handleClick();
+   confirm("Are you sure you want to logout?")?handleClick():window.location.href="/";
 }
 
 
@@ -18,7 +18,12 @@ if (id){
   const logout = await response.json()
   logout.message==="logout success"?(window.location.href="/auth/login"):(alert("logout error"));
 }
-return <p>waiting</p>;
+return <div className='loader-area'>
+  <div className='loader'>
+    
+  </div>
+
+</div>
 }
 
 export default function Logout(){
@@ -34,7 +39,8 @@ export default function Logout(){
 return(
 <div>
 
-  <Suspense fallback={<p>...logging out</p>}>
+  <Suspense fallback={<p>Pop</p>}>
+  
   <Hty />
     </Suspense>
         
