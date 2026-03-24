@@ -5,10 +5,9 @@ import * as EX from "xlsx";
 
 
 
-export default function Filter() {
-  const [url, setUrl]=useState<any>();
-  const [pop, setPop]=useState<any>();
 
+export default function Filter() {
+const [url, setUrl]=useState<any>();
 const [exams, setExams]=useState<string[]>();
 const [exam , setExam]= useState<string>();
 const [results , setResults]= useState<{ id: string, 
@@ -46,39 +45,52 @@ const [years, setYears]=useState<string[]>();
 
 const [cols, setCols]=useState<string[]>();
 
+//results fetching from database
+useEffect(()=>{
+        async function Results(){      
+        const request = await fetch("/api/erp/results"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
+        const response= await request.json();
+        const resultsx = response.results;
+        setResults(resultsx);       
+    }
+        Results();
+async function filter(){
+          const exam_req= await fetch("/api/erp/exams");
+          const exam_res: {exams: {exam: string, term: string, year: string}[]}=await exam_req.json();
+          const {exams} = exam_res;
+          const exam = [...new Set(exams.flatMap(s=>s.exam))];
 
+          const years = [...new Set(exams.flatMap(s=> new Date(s.year).toLocaleDateString("en-us", {year: "numeric"})))];
+          setYears(years);
+          setExams(exam);
+
+    }
+    filter();
+},[]);
 
   
 
 
-useEffect(()=>{
-    async function filter(){
-const exam_req= await fetch("/api/erp/exams");
-const exam_res: {exams: {exam: string, term: string, year: string}[]}=await exam_req.json();
-const {exams} = exam_res;
-const exam = [...new Set(exams.flatMap(s=>s.exam))];
 
-const years = [...new Set(exams.flatMap(s=> new Date(s.year).toLocaleDateString("en-us", {year: "numeric"})))];
-setYears(years);
-setExams(exam);
-
-    }
-    filter();
-
-},[]);
 
 
 useEffect(()=>
 {
-    if(year&&term&&exam&&grade){
-   const flt = results?(results.filter((e)=> {
-    const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
-   return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];
+    if(year&&term&&exam&&grade) { 
+    //filtering logic according to user actions
+    const flt = results?(results.filter(
+                (e)=> {
+              const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
 
-        
+              return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade
+            }
+)):[];
+
+        //reshaping the array elements
       
     const flattened = flt.reduce((acc:any, curr)=>{
                       const {score, student, exam, subject, studentId}=curr;
+
                       let marks = Number(score);
                       if(!acc[studentId]){
                       acc[studentId]={
@@ -99,44 +111,63 @@ useEffect(()=>
                       }, {});
         //end of reduce1
         
-        const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
+        //extracting subjects from the flattened arary and remving duplicates
+        
+
         const cleaned = Object.values(flattened);
         const sorted = cleaned.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
-        setCols(subjs);
-        setFresults(sorted);
-        //use effet results
-        }
-}, [grade]);
-
-//pop-docs
-
-useEffect(()=>{
-      if(year&&term&&exam&&grade){
-      const flt = results?(results.filter((e)=> {
-      const yr = new Date (e.exam.year).toLocaleDateString("en-gb", {year: "numeric"});
-      return e.exam.term===term&&e.exam.exam===exam&&yr===year&&e.student.grade==grade})):[];       
         
-    const flattened = flt.reduce((acc:any, curr)=>{
-                      const {score, student, exam, subject, studentId}=curr;
+        setFresults(sorted);
+        //docs section reduce 2
+        const docs = flt.reduce((acc:any, curr,index,flt)=>{
+                      let {score, student,subject, studentId}=curr;
+                      
+                      
+                     
                       if(!acc[studentId]){
                       acc[studentId]={
-                      name: student.name,
-                      id: studentId,
-                      grade: student.grade,
+                      NAME: student.name,
+                      ADM: studentId,
+                      Grade: student.grade,
+                      
+                      
                           }
                       }
-
                       acc[studentId][subject.name]=Number(score);
-
+                    
                       return acc;
 
                        }, {});
-        //end of reduce2
-        const cleaned = Object.values(flattened); //getting object values
-        setPop(cleaned);
+        const cleaned_docs = Object.values(docs); //getting object values
+        const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
+        setCols(subjs);
+        const stats = cleaned_docs.map((d:any)=>{
+          const total = subjs.reduce((sum: number, val)=>{
+            const score =Number(d[val]);
+            return (isNaN(score)?0:score)+sum;
+          },0);
+          const count = subjs.reduce((c, subj) => {
+    const val = Number(d[subj]);
+    return c + (!isNaN(val) ? 1 : 0);
+  }, 0);
+
+  const avg = count > 0 ? total / count : 0;
+          return {...d, total,Avg:Number([avg.toFixed(4)])};
+        });
+        
+        const stat1 = stats.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
+        
+const totals = stat1.map((d: any)=>{
+              const tots = subjs.map(col=> Number(d[col]));
+              const total = tots.reduce((total, initial)=> total+initial);
+
+              return total;
+});
+
+setTotals(totals);
         
         //excel workbook of filtered results by user
-        const sheet = EX.utils.json_to_sheet(cleaned);
+        const sheet = EX.utils.json_to_sheet(stat1);
         const workbook = EX.utils.book_new();
         EX.utils.book_append_sheet(workbook,sheet, "students" );
         const excelBuffer = EX.write(workbook, {type: "array", bookType:"xlsx"});
@@ -144,39 +175,17 @@ useEffect(()=>{
         const url = URL.createObjectURL(blob);
         setUrl(url);
         
-        //end of useeffect for docs
+        //use effect results
         }
-}, [fresults]);
+}, [grade]);
+
+//pop-docs
 
 
 
 
-//results fetching from database
-useEffect(()=>{
-        async function Results(){      
-        const request = await fetch("/api/erp/results"/*, {body : JSON.stringify(filters),method:"GET"}*/ );
-        const response= await request.json();
-        const resultsx = response.results;
-        setResults(resultsx);       
-    }
-        Results();
-},[]);
 
 
-useEffect(()=>{
-if(fresults&&cols){
-const totals = fresults.map((d)=>{
-
-const tots = cols.map(col=> Number(d[col]));
-const total = tots.reduce((total, initial)=> total+initial);
-
-return total;
-});
-setTotals(totals);
-
-
-}
-},[fresults]);
 
 
 
@@ -184,6 +193,12 @@ setTotals(totals);
 
   return (
     <div className="p-6 bg-gray-50 rounded-lg">
+               <Link
+          href="/erp/results"
+          className="text-1f1f1f px-4 py-2 rounded-lg font-semibold hover:bg-black-700 transition"
+        >
+          ➕ Add result
+        </Link>
       {/* Dropdowns */}
       <div className="flex flex-wrap gap-4 mb-6">
         <select
@@ -239,12 +254,7 @@ setTotals(totals);
 
       {/* Results table */}
       <div className="overflow-x-auto">
-         <Link
-          href="/erp/results"
-          className="text-1f1f1f px-4 py-2 rounded-lg font-semibold hover:bg-black-700 transition"
-        >
-          ➕ Add result
-        </Link>
+
         {(fresults&&totals) && (
           <div>
           

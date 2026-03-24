@@ -153,7 +153,7 @@ export default function Students() {
           >
             <option value="">-- Select grade --</option>
             {Array.from({ length: 12 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
+              <option key={i + 1} value={`Grade ${i + 1}`}>
                 Grade {i + 1}
               </option>
             ))}

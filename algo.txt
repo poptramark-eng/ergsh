@@ -1,0 +1,17 @@
+#navigation
+#typography
+#backgrounds
+#media
+
+#editting
+ scores
+ student
+ teacher
+
+ navigation
+  schools
+  students
+  subjects
+  exams
+  results
+  add results
