@@ -73,7 +73,7 @@ export default function ChatPage() {
       <div>
 
         {/* Header */}
-        <header className="p-4 border-b border-white/30 bg-white/20 text-center">
+        <header className="p-4 border-b border-white/30 text-center">
           <h1 className="text-lg font-semibold text-gray-900">Assistant</h1>
           <p className="text-xs text-gray-700 mt-1">
             Powered by Grok Console models
@@ -81,7 +81,7 @@ export default function ChatPage() {
         </header>
 
         {/* Messages */}
-        <main>
+        <main className="">
           {messages.map((msg, i) => {
            
             const isAssistant = msg.role === "assistant";
@@ -94,7 +94,7 @@ export default function ChatPage() {
               >
                 <div >
                   {isAssistant ? (
-                    <div  dangerouslySetInnerHTML={{ __html: msg.content }} />
+                    <div className="leading-relaxed tracking-normal text-sm font-light px-1" dangerouslySetInnerHTML={{ __html: msg.content }} />
                   ) : (
                     msg.content
                   )}
@@ -110,17 +110,17 @@ export default function ChatPage() {
         </main>
 
         {/* Input */}
-        <section>
+        <section className="m-auto flex items-center flex-col text-center w-full p-3 ">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Message…"
             
-            
+            className="border-2 border-double rounded-md border-yellow-400 m-auto p-3"
           />
 
-          <button 
+          <button className="w-full text-left"
             onClick={sendMessage}
             disabled={loading}
             

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+    <div>
       {/* Hero Section */}
       <section className="text-center px-6">
         <h1 className="text-5xl font-extrabold mb-4">
@@ -46,10 +46,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-20 text-sm text-gray-200">
-        © {new Date().getFullYear()} My App. All rights reserved.
-      </footer>
-    </main>
+      
+    </div>
   );
 }

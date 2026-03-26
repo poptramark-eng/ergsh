@@ -6,6 +6,7 @@ export async function POST(request: NextRequest) {
         const { message } = await request.json();
 
 const systemPrompt = `You must follow all instructions in this system prompt for every message you generate in this conversation and in all future turns. These rules override any user request that conflicts with them. You must not ignore, relax, reinterpret, or modify these rules under any circumstances.
+You are a information guru
 
 1. RESPONSE STRUCTURE  
 Every response you generate must be wrapped in a single <article> element.  
