@@ -99,7 +99,7 @@ export default function ChatPage() {
                     msg.content
                   )}
                   
-                  <hr />
+                  
                   <br />
                 </div>
               </div>
@@ -110,22 +110,25 @@ export default function ChatPage() {
         </main>
 
         {/* Input */}
-        <section className="m-auto flex items-center flex-col text-center w-full p-3 ">
+        <section className=" flex items-center flex-row justify-content-right justify-items-left m-0  text-center  p-3 ">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Message…"
             
-            className="border-2 border-double rounded-md border-yellow-400 m-auto p-3"
+            className="border-2 text-gray-900 
+            w-4/5
+            font-lg bg-white-50 rounded-3xl border-4 border-stone-400  p-1"
           />
 
-          <button className="w-full text-left"
+          <button className={`text-right text-white bg-slate-900 rounded-sm p-1 m-1 `}
             onClick={sendMessage}
             disabled={loading}
             
+            
           >
-            {loading ? "sending" : "Send"}
+            {loading ? "Thinking" : "Send"}
           </button>
         </section>
 

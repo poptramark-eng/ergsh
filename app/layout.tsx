@@ -31,19 +31,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth text-gray-600 font-arial m-0 p-0 bg-amber-100">
+    <html lang="en" className="scroll-smooth text-gray-700 leading-relaxed tracking-wide font-arial m-0 p-0 bg-gray-100">
       <body className="flex flex-col justify-center-safe">
 
         {/* NAVIGATION (Preserved but non-intrusive) */}
-        <nav className=" leading-none bg-gray-700 text-gray-50 w-screen sticky top-0  tracking-wide -md sticky top-0 z-50">
-          <div className="w-full px-4  m-0 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <nav className=" leading-snug  tracking-tight bg-gray-700 text-gray-50 w-screen sticky top-0  text-lg -md sticky top-0 z-50">
+          <div className="px-4  m-0 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
 
             {/* Logo */}
-            <h1 className="text-lg sm:text-xl font-bold text-1f1f1f-600">
+           
               <Link href="/" className="hover:text-white ">
                 HOME
               </Link>
-            </h1>
+            
 
             {/* Links */}
             <div className="flex flex-wrap gap-4 text-sm sm:text-base mt-3 sm:mt-0">
@@ -63,7 +63,7 @@ export default function RootLayout({
         </nav>
 
         {/* PAGE CONTENT — NO FORCED STYLING */}
-        <div className="overflow-scroll  mb-6">
+        <div className="p-3 mb-9">
           {children} 
           <br />
           <br />
@@ -71,7 +71,7 @@ export default function RootLayout({
 
         {/* FOOTER */}
         <div className="fixed isolate bottom-0 w-full">
-          <footer className="bg-gray-800 text-gray-300 w-full py-6 text-center text-sm">
+          <footer className="bg-gray-800 text-gray-300 py-6 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} School ERP. All rights reserved.</p>
         </footer>
         </div>
