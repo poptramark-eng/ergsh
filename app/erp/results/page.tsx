@@ -59,12 +59,17 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
 };
 
 return (<section className="p-6 bg-gray-50 rounded-lg shadow-md">
-  <h1>Download upload template</h1>
+  
+  <div  className="m-6 bg-gray-200 p-6 shadow-xl">
+    <h1 className="font-bold">Download upload template</h1>
   <Template />
-  <br /> <br /> <hr />
-  <h2>Upload results</h2>
-  <Upload />
-  <hr />
+  </div>
+  
+ <div className="m-6 bg-gray-200 p-6 shadow-xl">
+   <h2 className="font-bold">Upload results</h2>
+  <Upload  />
+ </div>
+  
 
   <form onSubmit={handleSubmit} className="space-y-6">
     

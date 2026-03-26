@@ -65,10 +65,11 @@ async function clean(json: any,exam: string){
         <div>
             <form onSubmit={handleSubmit}>
                 <select name="exam" id="exam">
+                    <option className="text-lg font-bold text-gray-600" value="">select exam</option>
                     {exams&&exams.map((s,index)=><option key={index} value={s.id}>{s.exam}</option>)}
                 </select>
-
-                <div>
+<p className="text-sm p-4">NB:upload results with columnnames aligned to the template columns</p>
+                <div className="bg-gray-50 p-2">
                     
                     <label htmlFor="file"></label>
                     <input required name="file" id="file" type="file" />

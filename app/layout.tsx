@@ -40,13 +40,14 @@ export default function RootLayout({
 
             {/* Logo */}
            
-              <Link href="/" className="hover:text-white ">
-                HOME
-              </Link>
+             
             
 
             {/* Links */}
             <div className="flex flex-wrap gap-4 text-sm sm:text-base mt-3 sm:mt-0">
+               <Link href="/" className="hover:text-white ">
+                HOME
+              </Link>
               <Link href="/erp/details/schools" className="hover:text-blue-600">School Details</Link>
               <Link href="/erp/details/students" className="hover:text-blue-600">View Students</Link>
               <Link href="/erp/details/teachers" className="hover:text-blue-600">View Teachers</Link>
@@ -54,8 +55,7 @@ export default function RootLayout({
               <Link href="/erp/details/exams" className="hover:text-blue-600">View Exams</Link>
               <Link href="/erp/details/results" className="hover:text-blue-600">View Results</Link>
               <Link href="/erp/results" className="hover:text-red-600 font-medium">Add results</Link>
-              <Link href="/erp/edit" className="hover:text-red-600 font-medium">Edit results</Link>
-              <Link href="/grok" className="hover:text-blue-600">Ask AI</Link>
+             
               <Link href="/auth/logout?id=/" className="hover:text-red-600 font-medium">Logout</Link>
             </div>
 
