@@ -64,17 +64,19 @@ async function clean(json: any,exam: string){
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <select name="exam" id="exam">
-                    <option className="text-lg font-bold text-gray-600" value="">select exam</option>
-                    {exams&&exams.map((s,index)=><option key={index} value={s.id}>{s.exam}</option>)}
+               <div className="inline-block">
+                 <select className="outline-none bg-white text-[1f1f1f] border-none text-sm inline-block" name="exam" id="exam">
+                    <option className="text-sm border-none font-light tracking-tight leading-snug text-gray-600" value="">select exam</option>
+                    {exams&&exams.map((s,index)=><option className="border-none text-sm font-light tracking-tight leading-snug bg-green-600 " key={index} value={s.id}>{s.exam}</option>)}
                 </select>
-<p className="text-sm p-4">NB:upload results with columnnames aligned to the template columns</p>
-                <div className="bg-gray-50 p-2">
+               </div>
+<p className="text-sm p-4">NB: Use the downloaded template upload results</p>
+                <div className="bg-gray-50 inline-block p-2">
                     
-                    <label htmlFor="file"></label>
-                    <input required name="file" id="file" type="file" />
+                   
+                    <input className="font-bold inline w-full text-white bg-blue-500/100 p-2 rounded-lg text-lg tracking-wide" required name="file" id="file" type="file" />
                 </div>
-                <div>
+                <div className="rounded-lg shadow-md text-center inline-block p-2 bg-black text-white font-bold m-2">
                     <input type="submit" value="upload" />
                 </div>
             </form>

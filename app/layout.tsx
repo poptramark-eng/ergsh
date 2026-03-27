@@ -63,14 +63,14 @@ export default function RootLayout({
         </nav>
 
         {/* PAGE CONTENT — NO FORCED STYLING */}
-        <div className="p-3 mb-9">
+        <div className="m-0 p-0">
           {children} 
           <br />
           <br />
         </div>
 
         {/* FOOTER */}
-        <div className="fixed isolate bottom-0 w-full">
+        <div className="relative bottom-0 w-full">
           <footer className="bg-gray-800 text-gray-300 py-6 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} School ERP. All rights reserved.</p>
         </footer>

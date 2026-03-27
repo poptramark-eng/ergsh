@@ -35,20 +35,20 @@ export default function Students() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
-      <div className="flex items-center justify-between mb-6">
+    <div className="m-4 ">
+      <div className="flex items-center justify-between m-0 p-4">
         <h1 className="text-2xl font-bold text-gray-800">Students</h1>
         <Link
           href="/erp/students"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
         >
-          ➕ Add Student
+           Add Student
         </Link>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
-          <thead className="bg-blue-600 text-white">
+      <div className="overflow-x-auto p-6  m-0">
+        <table className="min-w-0 border-collapse rounded-lg overflow-hidden shadow-sm">
+          <thead className="bg-yellow-300/50 text-black font-bold italic">
             <tr>
               <th className="px-4 py-3 text-left">ADM</th>
               <th className="px-4 py-3 text-left">Name</th>
@@ -56,30 +56,29 @@ export default function Students() {
               <th className="px-4 py-3 text-left">DOB</th>
               <th className="px-4 py-3 text-left">School</th>
               <th className="px-4 py-3 text-left">Grade</th>
-              <th className="px-4 py-3 text-left">Created At</th>
               <th className="px-4 py-3 text-center">Details</th>
               <th className="px-4 py-3 text-center">Edit</th>
               <th className="px-4 py-3 text-center">Delete</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-gray-50">
+          <tbody className="bg-orange-300/50 text-sm tracking-tight leading-tight">
             {students.length > 0 ? (
               students.map((student) => (
-                <tr key={student.id} className="hover:bg-gray-100 transition">
+                <tr key={student.id} className="">
                   <td className="px-4 py-3">{student.id}</td>
                   <td className="px-4 py-3 font-medium text-gray-800">
                     {student.name}
                   </td>
                   <td className="px-4 py-3">{student.gender}</td>
-                  <td className="px-4 py-3">{student.dob}</td>
+                  <td className="px-4 py-3">{(new Date(student.dob)).toLocaleDateString()}</td>
                   <td className="px-4 py-3">{student.school.name}</td>
                   <td className="px-4 py-3">{student.grade}</td>
-                  <td className="px-4 py-3">{student.createdAt}</td>
+                  
 
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.school.name}&grade=${student.grade}&name=${student.name}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white p-4 rounded-sm bg-blue-900 hover:underline"
                     >
                       Details
                     </Link>
@@ -87,7 +86,7 @@ export default function Students() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/edit/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white bg-green-900 rounded-sm p-4 hover:underline"
                     >
                       Edit
                     </Link>
@@ -95,7 +94,7 @@ export default function Students() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/delete/${student.id}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white bg-red-900 p-4 rounded-sm hover:underline"
                     >
                       Delete
                     </Link>

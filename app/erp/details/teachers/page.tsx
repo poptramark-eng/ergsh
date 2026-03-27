@@ -25,14 +25,14 @@ export default function Teachers() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
+    <div className="m-3">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Teachers</h1>
         <Link
           href="/erp/teachers"
           className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
         >
-          ➕ Add Teacher
+           Add Teacher
         </Link>
       </div>
 
@@ -64,7 +64,7 @@ export default function Teachers() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/teachers/${teacher.id}?gender=${teacher.gender}&email=${teacher.email}&schoolId=${teacher.schoolId}&phone=${teacher.phone}&name=${teacher.name}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white bg-blue-900 p-2 text-lg font-bold rounded-lg hover:underline"
                     >
                       Details
                     </Link>
@@ -72,7 +72,7 @@ export default function Teachers() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/teachers/delete/${teacher.id}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white bg-red-900 text-lg font-bold rounded-lg p-2 hover:underline"
                     >
                       Delete
                     </Link>
@@ -80,7 +80,7 @@ export default function Teachers() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/teachers/edit/${teacher.id}?gender=${teacher.gender}&phone=${teacher.phone}&schoolId=${teacher.schoolId}&email=${teacher.email}&name=${teacher.name}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white bg-green-900 text-lg font-bold p-2 rounded-lg hover:underline"
                     >
                       Edit
                     </Link>

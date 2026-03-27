@@ -51,16 +51,17 @@ XLSX.writeFile(workbook, "students.xlsx");
 
 
     return(
-        <div>
-<h1>Select a grade for a template to upload student results from excel</h1>
-<select name="grade" id="grade" onChange={(e)=>setGrade(e.target.value)}>
+        <div className="inline-block">
+
+<select className="bg-white inline-block w-full tracking-tight text-[#1f1f1f] outline-none" name="grade" id="grade" onChange={(e)=>setGrade(e.target.value)}>
+    <option value="">select grade</option>
     {grades.map((s,index)=><option key={index} value={s}>{s}</option>)}
 </select>
 
 <div>
     <section>
         
-        {data&&<button onClick={()=>{upload(data)}}>download students form</button>}
+        {data&&<button className="rounded-lg p-2 text-md tracking-tight bg-black text-white text-center m-4" onClick={()=>{upload(data)}}>Download Template</button>}
     </section>
     
    {/* <table>

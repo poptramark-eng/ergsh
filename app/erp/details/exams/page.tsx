@@ -17,63 +17,50 @@ export default function Exams() {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Exams</h1>
+    <div className="mx-auto w-full flex place-items-center flex-col bg-inherit p-4 m-0">
+      
+        <h1 className="text-2xl place-self-center font-bold text-gray-900/900">Exams</h1>
         <Link
           href="/erp/exams"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          className="text-white bg-blue-900/50 text-center border outline-3 border-black px-4 py-2 rounded-lg font-semibold transition"
         >
-          ➕ Add Exam
+          Create Exam
         </Link>
-      </div>
+      
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
-          <thead className="bg-blue-600 text-white">
-            <tr>
-              <th className="px-4 py-3 text-left">ID</th>
-              <th className="px-4 py-3 text-left">Exam</th>
-              <th className="px-4 py-3 text-left">Term</th>
-              <th className="px-4 py-3 text-left">Year</th>
-              <th className="px-4 py-3 text-center">Details</th>
-              <th className="px-4 py-3 text-center">Delete</th>
-              <th className="px-4 py-3 text-center">Edit</th>
+      <div className="overflow-x-scroll w-full place-self-center p-8 m-0 ">
+        <table className="rounded-lg bg-gray-900/400 p-4 min-w-0 shadow-xl">
+          <thead>
+            <tr className="bg-orange-300/50 w-full m-0">
+              <th className="p-2 text-left">ID</th>
+              <th className="p-2 text-left">Exam</th>
+              <th className="p-2 text-left">Term</th>
+              <th className="p-2 text-left">Year</th>
+              <th className="p-2 text-left">Delete</th>
+              <th className="p-2 text-left">Edit</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-gray-50">
             {exams? (
               exams.map((exam) => (
-                <tr key={exam.id} className="hover:bg-gray-100 transition">
-                  <td className="px-4 py-3">{exam.id}</td>
-                  <td className="px-4 py-3 font-medium text-gray-800">
+                <tr key={exam.id} className="hover:bg-gray-100 w-full m-0 transition">
+                  <td className="p-2 text-left">{exam.id}</td>
+                  <td className="p-2 text-left ">
                     {exam.exam}
                   </td>
-                  <td className="px-4 py-3">{exam.term}</td>
-                  <td className="px-4 py-3">{exam.year}</td>
-                  <td className="px-4 py-3 text-center">
-                    <Link
-                      href={`/erp/details/exams/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
-                      className="text-red-600 hover:underline"
-                    >
-                      Details
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3 text-center">
+                  <td className="p-2 text-left">{exam.term}</td>
+                  <td className="p-2 text-left">{(new Date(exam.year)).toLocaleDateString("en-us", {year:"numeric"})}</td>
+                  <td className="p-2 text-left">
                     <Link
                       href={`/erp/details/exams/delete/${exam.id}`}
-                      className="text-red-600 hover:underline"
-                    >
-                      Delete
-                    </Link>
+                      className="text-red-800 p-2 text-left bg-red-300/50 rounded-lg"
+                    >Delete</Link>
                   </td>
-                  <td className="px-4 py-3 text-center">
+                  <td className="p-2 text-left">
                     <Link
                       href={`/erp/details/exams/edit/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
-                      className="text-red-600 hover:underline"
-                    >
-                      Edit
-                    </Link>
+                      className="p-2 text-left bg-green-300/50 rounded-lg"
+                    >Edit</Link>
                   </td>
                 </tr>
               ))
@@ -81,7 +68,7 @@ export default function Exams() {
               <tr>
                 <td
                   colSpan={7}
-                  className="px-4 py-6 text-center text-gray-500 italic"
+                  className="p-2 text-left"
                 >
                   No exams found.
                 </td>

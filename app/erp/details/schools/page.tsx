@@ -24,18 +24,18 @@ export default function Schools() {
   }, []);
 
  return (
-  <main className="max-w-6xl mx-auto mt-12 p-8 bg-gray-50 rounded-3xl shadow-lg">
+  <main className="m-3">
     <header className="mb-12 text-center">
       <h1 className="text-4xl font-extrabold text-gray-900">School Directory</h1>
-      <p className="mt-2 text-gray-600">Browse and manage registered schools</p>
+      <p className="mt-2 text-gray-600">School Information</p>
     </header>
 
     {schools.length > 0 ? (
-      <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <section className="flex flex-col place-items-center">
         {schools.map((school) => (
           <article
             key={school.id}
-            className="flex flex-col justify-between p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition"
+            className="flex flex-col place-items-center p-6 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition"
           >
             <div>
               <h2 className="text-xl font-bold text-blue-700">{school.name}</h2>

@@ -17,7 +17,7 @@ export default function Subjects() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
+    <div className="m-2">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Subjects</h1>
         <Link
@@ -34,8 +34,6 @@ export default function Subjects() {
             <tr>
               <th className="px-4 py-3 text-left">ID</th>
               <th className="px-4 py-3 text-left">Name</th>
-              <th className="px-4 py-3 text-left">Created At</th>
-              <th className="px-4 py-3 text-center">Details</th>
               <th className="px-4 py-3 text-center">Delete</th>
               <th className="px-4 py-3 text-center">Edit</th>
             </tr>
@@ -48,19 +46,12 @@ export default function Subjects() {
                   <td className="px-4 py-3 font-medium text-gray-800">
                     {subject.name}
                   </td>
-                  <td className="px-4 py-3">{subject.createdAt}</td>
-                  <td className="px-4 py-3 text-center">
-                    <Link
-                      href={`/erp/details/subjects/details/${subject.id}?name=${subject.name}`}
-                      className="text-red-600 hover:underline"
-                    >
-                      Details
-                    </Link>
-                  </td>
+                  
+                  
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/subjects/delete/${subject.id}`}
-                      className="text-red-600 hover:underline"
+                      className="text-white text-lg p-2 font-bold bg-red-900 rounded-sm  hover:underline"
                     >
                       Delete
                     </Link>
@@ -68,7 +59,7 @@ export default function Subjects() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/subjects/edit/${subject.id}?name=${subject.name}`}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-lg hover:bg-blue-700 transition"
                     >
                       Edit
                     </Link>

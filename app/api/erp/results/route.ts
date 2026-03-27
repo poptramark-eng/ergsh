@@ -23,7 +23,7 @@ const { scores}  = body;
 
     return NextResponse.json({ message: "success" });
   } catch (error) {
-    return NextResponse.json({ message: "Application Error" });
+    return NextResponse.json({ message: "Results for this student exist" });
   }
 }
 

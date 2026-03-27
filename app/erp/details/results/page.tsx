@@ -8,6 +8,7 @@ import * as EX from "xlsx";
 
 export default function Filter() {
 const [url, setUrl]=useState<any>();
+const [analysis, setAnalysis] =useState<{}[]>();
 const [exams, setExams]=useState<string[]>();
 const [exam , setExam]= useState<string>();
 const [results , setResults]= useState<{ id: string, 
@@ -141,21 +142,25 @@ useEffect(()=>
         const cleaned_docs = Object.values(docs); //getting object values
         const subjs =[...new Set( Object.values(flattened).flatMap((e: any)=> e.subjects))];
         setCols(subjs);
+        
         const stats = cleaned_docs.map((d:any)=>{
           const total = subjs.reduce((sum: number, val)=>{
             const score =Number(d[val]);
             return (isNaN(score)?0:score)+sum;
           },0);
-          const count = subjs.reduce((c, subj) => {
+          /*const count = subjs.reduce((c, subj) => {
     const val = Number(d[subj]);
     return c + (!isNaN(val) ? 1 : 0);
-  }, 0);
+  }, 0);*/
 
-  const avg = count > 0 ? total / count : 0;
+  //const avg = count > 0 ? total / count : 0;
+  const avg =  total / subjs.length;
+  
+  
           return {...d, total,Avg:Number([avg.toFixed(4)])};
         });
         
-        const stat1 = stats.sort((a: any,b: any)=>Number(b.total)-Number(a.total));
+        const stat1 = stats.sort((a: any,b: any)=>Number(a.total)-Number(b.total));
         
 const totals = stat1.map((d: any)=>{
               const tots = subjs.map(col=> Number(d[col]));
@@ -163,8 +168,9 @@ const totals = stat1.map((d: any)=>{
 
               return total;
 });
-
+setAnalysis(stat1);
 setTotals(totals);
+
         
         //excel workbook of filtered results by user
         const sheet = EX.utils.json_to_sheet(stat1);
@@ -182,7 +188,7 @@ setTotals(totals);
 //pop-docs
 
 
-
+let rank=0;
 
 
 
@@ -253,38 +259,48 @@ setTotals(totals);
       </div>
 
       {/* Results table */}
-      <div className="overflow-x-auto">
+      <div className="">
 
-        {(fresults&&totals) && (
+        {(fresults&&analysis) && (
           <div>
           
-          <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
-            <thead className="bg-gray-100">
+         <div className="scroll-smooth  shadow-2xl font-mono overflow-x-scroll m-0 mb-6 p-0">
+          <table className="border w-full border-gray-200 bg-slate-200 rounded-lg shadow-sm">
+            <thead className="bg-emerald-100">
               <tr>
-                <th className="px-4 py-2 text-left font-semibold">ADM</th>
-                <th className="px-4 py-2 text-left font-semibold">Name</th>
-                <th className="px-4 py-2 text-left font-semibold">Total</th>
+                <th className="p-2 text-left font-semibold">Rank</th>
+                <th className="p-2 text-left font-semibold">ADM</th>
+                <th className="p-2 text-left font-semibold">Name</th>
+                
                 
 
                 {cols && cols.map((s, index) => (
-                  <th key={index} className="px-4 py-2 text-left font-semibold">{s}</th>
+                  <th key={index} className="p-2 text-left font-semibold">{s}</th>
                 ))}
+                <th className="p-2 text-left font-semibold">Total</th>
+                <th className="p-2 text-left font-semibold">Average</th>
               </tr>
             </thead>
             <tbody>
-              {totals && fresults && fresults.map((s, index) => (
+              {analysis && fresults && analysis.map((s: any, index) => (
                 <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-4 py-2">{s.id}</td>
-                  <td className="px-4 py-2">{s.name}</td>
-                  <td className="px-4 py-2">{totals[index]}</td>
+                  <td className="p-2">{++rank}</td>
+                  <td className="p-2">{s.ADM}</td>
+                  <td className="p-2">{s.NAME}</td>
+                  
                   {cols && cols.map((x, i) => (
-                    <td key={i} className="px-4 py-2">{s[x]}</td>
+                    <td key={i} className="p-2">{s[x]??0}</td>
                   ))}
+                  <td className="p-2">{s.total}</td>
+                  <td className="p-2">{s.Avg}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {fresults&&url&&<Link href={url}>Download results </Link>}
+         </div> 
+          <div>
+            {fresults&&url&&<Link className="text-lg inline-block p-2   text-center tracking-tighter text-white font-bold bg-black rounded-lg" href={url}>Download Excel</Link>}
+          </div>
           </div>
           
         )}

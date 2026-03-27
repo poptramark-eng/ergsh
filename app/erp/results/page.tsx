@@ -58,21 +58,13 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
 
 };
 
-return (<section className="p-6 bg-gray-50 rounded-lg shadow-md">
+return (<section className="m-2 p-6">
   
-  <div  className="m-6 bg-gray-200 p-6 shadow-xl">
-    <h1 className="font-bold">Download upload template</h1>
-  <Template />
-  </div>
-  
- <div className="m-6 bg-gray-200 p-6 shadow-xl">
-   <h2 className="font-bold">Upload results</h2>
-  <Upload  />
- </div>
+ 
   
 
   <form onSubmit={handleSubmit} className="space-y-6">
-    
+    <h2 className="p-2 font-sans font-bold text-lg text-green-800/100">Add results for one student</h2>
     <div>
       <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-1">
         Grade
@@ -147,6 +139,7 @@ return (<section className="p-6 bg-gray-50 rounded-lg shadow-md">
                       id={sub.name}
                       name={sub.name}
                       type="number"
+                      defaultValue={0}
                       min={0}
                       max={100}
                       className="w-24 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -169,6 +162,19 @@ return (<section className="p-6 bg-gray-50 rounded-lg shadow-md">
       />
     </div>
   </form>
+
+   <div className="m-3">
+    <div className="bg-yellow-200/50 p-3 rounded-xl shadow-xl">
+   <h2 className="font-bold">Upload results</h2>
+  <Upload  />
+ </div>
+    <div  className="m-4 bg-orange-200/70 p-6 rounded-lg text-lg shadow-xl">
+    <h1 className="font-bold">Download template for exam results upload</h1>
+  <Template />
+  </div>
+  
+ 
+  </div>
 </section>
 
 );
