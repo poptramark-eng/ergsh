@@ -21,7 +21,7 @@ export default function Reg() {
     const phone = formData.get("phone") as string;
     
 
-    const response = await fetch("/api/all", {
+    const response = await fetch("/api/auth", {
       body: JSON.stringify({ name,  role, password, email ,schname, schemail,vision, motto, phone}),
       method: "POST",
     });
