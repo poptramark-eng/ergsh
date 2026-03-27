@@ -35,20 +35,20 @@ export default function Students() {
   }, []);
 
   return (
-    <div className="m-4 ">
-      <div className="flex items-center justify-between m-0 p-4">
+    <div className="m-4">
+      <div className="m-0 p-4">
         <h1 className="text-2xl font-bold text-gray-800">Students</h1>
         <Link
           href="/erp/students"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          className="bg-blue-600/100 text-white p-2 inline-block rounded-lg font-semibold m-2 transition"
         >
            Add Student
         </Link>
       </div>
 
-      <div className="overflow-x-auto p-6  m-0">
-        <table className="min-w-0 border-collapse rounded-lg overflow-hidden shadow-sm">
-          <thead className="bg-yellow-300/50 text-black font-bold italic">
+      <div className="overflow-x-scroll">
+        <table className="m-6 p-4 shadow-lg flex-1">
+          <thead className="bg-stone-500/100 text-black">
             <tr>
               <th className="px-4 py-3 text-left">ADM</th>
               <th className="px-4 py-3 text-left">Name</th>
@@ -61,10 +61,10 @@ export default function Students() {
               <th className="px-4 py-3 text-center">Delete</th>
             </tr>
           </thead>
-          <tbody className="bg-orange-300/50 text-sm tracking-tight leading-tight">
+          <tbody className=" ">
             {students.length > 0 ? (
               students.map((student) => (
-                <tr key={student.id} className="">
+                <tr key={student.id}>
                   <td className="px-4 py-3">{student.id}</td>
                   <td className="px-4 py-3 font-medium text-gray-800">
                     {student.name}
@@ -78,15 +78,15 @@ export default function Students() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.school.name}&grade=${student.grade}&name=${student.name}`}
-                      className="text-white p-4 rounded-sm bg-blue-900 hover:underline"
+                      className="text-white p-2 rounded-lg bg-blue-900 hover:underline"
                     >
                       Details
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-center">
+                  <td className="px-4 py-3 text-center ">
                     <Link
                       href={`/erp/details/students/edit/${student.id}?gender=${student.gender}&dob=${student.dob}&schoolId=${student.schoolId}&grade=${student.grade}&name=${student.name}`}
-                      className="text-white bg-green-900 rounded-sm p-4 hover:underline"
+                     className="rounded-lg bg-green-400/100 p-2 text-white"
                     >
                       Edit
                     </Link>
@@ -94,7 +94,7 @@ export default function Students() {
                   <td className="px-4 py-3 text-center">
                     <Link
                       href={`/erp/details/students/delete/${student.id}`}
-                      className="text-white bg-red-900 p-4 rounded-sm hover:underline"
+                      className="text-white bg-red-900 p-2 rounded-sm hover:underline"
                     >
                       Delete
                     </Link>
@@ -105,7 +105,7 @@ export default function Students() {
               <tr>
                 <td
                   colSpan={10}
-                  className="px-4 py-6 text-center text-gray-500 italic"
+                  className="px-4 py-3 text-center text-gray-500 italic"
                 >
                   No students found.
                 </td>

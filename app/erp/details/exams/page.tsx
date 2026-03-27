@@ -17,18 +17,18 @@ export default function Exams() {
   }, []);
 
   return (
-    <div className="mx-auto w-full flex place-items-center flex-col bg-inherit p-4 m-0">
+    <div className="m-2 flex place-items-center flex-col">
       
-        <h1 className="text-2xl place-self-center font-bold text-gray-900/900">Exams</h1>
+        <h1 className="text-2xl text-center font-bold text-black">Exams</h1>
         <Link
           href="/erp/exams"
-          className="text-white bg-blue-900/50 text-center border outline-3 border-black px-4 py-2 rounded-lg font-semibold transition"
+          className="text-white bg-black text-center  p-2 m-4 rounded-lg font-semibold"
         >
           Create Exam
         </Link>
       
 
-      <div className="overflow-x-scroll w-full place-self-center p-8 m-0 ">
+      <div className="overflow-x-scroll inline-block place-self-center p-8 m-0 ">
         <table className="rounded-lg bg-gray-900/400 p-4 min-w-0 shadow-xl">
           <thead>
             <tr className="bg-orange-300/50 w-full m-0">
@@ -52,16 +52,17 @@ export default function Exams() {
                   <td className="p-2 text-left">{(new Date(exam.year)).toLocaleDateString("en-us", {year:"numeric"})}</td>
                   <td className="p-2 text-left">
                     <Link
-                      href={`/erp/details/exams/delete/${exam.id}`}
-                      className="text-red-800 p-2 text-left bg-red-300/50 rounded-lg"
-                    >Delete</Link>
+                      href={`/erp/details/exams/edit/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
+                      className="p-2 text-left bg-blue-500/100 m-2 text-white rounded-lg"
+                    >Edit</Link>
                   </td>
                   <td className="p-2 text-left">
                     <Link
-                      href={`/erp/details/exams/edit/${exam.id}?term=${exam.term}&year=${exam.year}&exam=${exam.exam}`}
-                      className="p-2 text-left bg-green-300/50 rounded-lg"
-                    >Edit</Link>
+                      href={`/erp/details/exams/delete/${exam.id}`}
+                      className="text-white p-2 m-2 text-left bg-red-500/100 rounded-lg"
+                    >Delete</Link>
                   </td>
+                  
                 </tr>
               ))
             ) : (
