@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 import Link from "next/link";
+import Pay from "./payments/page";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
+
 
 export const metadata: Metadata = {
   title: "EXAM MANAGEMENT",
@@ -22,7 +17,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#000000",
+  
 };
 
 export default function RootLayout({
@@ -31,46 +26,45 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth text-gray-700 leading-relaxed tracking-wide font-arial m-0 p-0 bg-gray-100">
-      <body className="flex flex-col justify-center-safe">
+    <html lang="en" className="scroll-smooth text-lg antialiased leading-snug tracking-wide font-mono whitespace-normal text-black text-pretty">
+      <body className="m-0 h-screen flex flex-col p-0  box-border">
 
         {/* NAVIGATION (Preserved but non-intrusive) */}
-        <nav className=" leading-snug  tracking-tight bg-gray-700 text-gray-50 w-screen sticky top-0  text-lg -md sticky top-0 z-50">
-          <div className="px-4  m-0 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-
-            {/* Logo */}
-           
-             
+        <nav className="flex flex-wrap p-4 m-0  bg-gray-900/80 justify-around w-full  text-white flex-row  ">
             
-
-            {/* Links */}
-            <div className="flex flex-wrap gap-4 text-sm sm:text-base mt-3 sm:mt-0">
-               <Link href="/" className="hover:text-white ">
+               <Link href="/" className="p-1  leading-none  m-1 text-white   ">
                 HOME
               </Link>
-              <Link href="/erp/details/schools" className="hover:text-blue-600">School Details</Link>
-              <Link href="/erp/details/students" className="hover:text-blue-600">View Students</Link>
-              <Link href="/erp/details/teachers" className="hover:text-blue-600">View Teachers</Link>
-              <Link href="/erp/details/subjects" className="hover:text-blue-600">View Subjects</Link>
-              <Link href="/erp/details/exams" className="hover:text-blue-600">View Exams</Link>
-              <Link href="/erp/details/results" className="hover:text-blue-600">View Results</Link>
-              <Link href="/erp/results" className="hover:text-red-600 font-medium">Add results</Link>
-             
-              <Link href="/auth/logout?id=/" className="hover:text-red-600 font-medium">Logout</Link>
-            </div>
+              <Link href="/erp/details/schools" className="p-1  leading-none  m-1 text-white   ">School</Link>
+              <Link href="/erp/details/students" className="p-1  leading-none  m-1 text-white   ">Students</Link>
+              <Link href="/erp/details/teachers" className="p-1  leading-none  m-1 text-white   ">Teachers</Link>
+              <Link href="/erp/details/subjects" className="p-1  leading-none  m-1 text-white   ">Subjects</Link>
+              <Link href="/erp/details/exams" className="p-1  leading-none  m-1 text-white   ">Exams</Link>
+              <Link href="/erp/details/results" className="p-1  leading-none  m-1 text-white  ">Results</Link>
+              <Link href="/erp/results" className="p-1  leading-none  m-1 text-white   ">Add results</Link>
 
-          </div>
+            
+             
+              <Link href="/auth/logout?id=/" className="p-1  leading-none  m-1 text-white   ">Logout</Link>
+            
+
+          
         </nav>
+       
 
         {/* PAGE CONTENT — NO FORCED STYLING */}
-        <div className="m-0 p-0">
-          {children} 
-          <br />
-          <br />
-        </div>
+        
+          
+          <div className="pt-4">
+              {children} 
+          <Pay />
+          </div>
+          
+          
+        
 
         {/* FOOTER */}
-        <div className="relative bottom-0 w-full">
+        <div className="w-full bg-cover mb-0">
           <footer className="bg-gray-800 text-gray-300 py-6 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} School ERP. All rights reserved.</p>
         </footer>

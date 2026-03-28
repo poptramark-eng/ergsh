@@ -27,8 +27,8 @@ export default function Reg() {
     });
     const results = await response.json();
     results.message === "success"
-      ? router.push("/auth/login")
-      : alert(JSON.stringify(results));
+      ? router.push("/auth/login?id=/")
+      : alert("user exists. proceed to login");
   }
 
   return (

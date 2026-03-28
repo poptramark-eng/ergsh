@@ -11,6 +11,10 @@ export default function LandingPage() {
         <h1 className="text-5xl font-extrabold mb-4">
           Welcome to My App
         </h1>
+
+         <div>
+          <Link className="text-4xl text-center text-gray-700/100 font-bolder " href={`/auth/reg`}>Click here to register an account</Link>
+        </div>
         <p className="text-lg mb-8 max-w-xl mx-auto">
           A modern platform designed to make your workflow faster, smarter, and more enjoyable.
         </p>
