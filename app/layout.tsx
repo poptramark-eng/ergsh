@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import Pay from "./payments/page";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-
-
-
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "EXAM MANAGEMENT",
@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth text-lg antialiased leading-snug tracking-wide font-mono whitespace-normal text-black text-pretty">
-      <body className="m-0 h-screen flex flex-col p-0  box-border">
+    <html lang="en" className={cn("scroll-smooth text-lg antialiased leading-snug tracking-wide font-mono whitespace-normal text-black text-pretty", "font-sans", geist.variable)}>
+      <body className="m-0 h-screen flex flex-col p-0  box-border ">
 
         {/* NAVIGATION (Preserved but non-intrusive) */}
         <nav className="flex flex-wrap p-4 m-0  bg-gray-900/80 justify-around w-full  text-white flex-row  ">
@@ -55,9 +55,9 @@ export default function RootLayout({
         {/* PAGE CONTENT — NO FORCED STYLING */}
         
           
-          <div className="pt-4">
+          <div>
               {children} 
-          <Pay />
+          
           </div>
           
           

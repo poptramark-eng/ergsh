@@ -3,6 +3,32 @@
 import { useEffect, useState } from "react";
 import Template  from "@/app/components/xlsx/students_template/page";
 import Upload from "@/app/components/xlsx/results_upload/page";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  AlertAction,
+} from "@/components/ui/alert"
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 
 
 export default function Newresults(){
@@ -12,6 +38,8 @@ const[grade, setGrade]=useState<string>();
 const [student, setStudent]=useState<string>();
 const [subjects, setSubjects]=useState<{name:string, id: string}[]>();
 const [exams, setExams]=useState<{id: string, exam: string}[]>();
+
+const [error, setError]=useState(false);
 const options = ["Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10","Grade 11", "Grade 12"];
 
 useEffect(()=>{
@@ -52,19 +80,24 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     
     const request = await fetch("/api/erp/results", {method: "POST", body:JSON.stringify({scores: scores})});
     const response= await request.json();
-    response.message==="success"?window.location.href="/erp/details/results":alert(`${response.message}`);
+    response.message==="success"?success():setError(true);
 
-    
+    function success(){
+      alert("success");
+window.location.href="/erp/details/results";
+    }
 
 };
 
-return (<section className="m-2 p-6">
+return (<Card className="max-w-md w-full mx-auto p-1 bg-gray-600/10 my-2">
   
- 
-  
+ <CardHeader>
+  <CardTitle><h2 className="p-2 font-sans font-bold text-lg text-green-800/100">Add results for one student</h2></CardTitle>
+ </CardHeader>
+ <CardContent>
 
   <form onSubmit={handleSubmit} className="space-y-6">
-    <h2 className="p-2 font-sans font-bold text-lg text-green-800/100">Add results for one student</h2>
+    
     <div>
       <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-1">
         Grade
@@ -123,59 +156,101 @@ return (<section className="m-2 p-6">
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Subjects</h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow-sm">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-2 text-left font-semibold">Subject</th>
-                <th className="px-4 py-2 text-left font-semibold">Score</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead >Subject</TableHead>
+                <TableHead >Score</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {subjects.map((sub) => (
-                <tr key={sub.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2">{sub.name}</td>
-                  <td className="px-4 py-2">
-                    <input
-                      id={sub.name}
+                <TableRow key={sub.id} >
+                  <TableCell>{sub.name}</TableCell>
+                  <TableCell>
+                    <Input
+                              id={sub.name}
                       name={sub.name}
                       type="number"
                       defaultValue={0}
                       min={0}
                       max={100}
                       className="w-24 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </td>
-                </tr>
+      />
+                   
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       </div>
     )}
 
     {/* Submit */}
     <div>
-      <input
+     
+      <Button asChild
+      aria-label="Submit"
+      variant="outline"
+      className="w-fit"
+    >
+       <input
         type="submit"
-        value="Add Result"
-        className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        value="submit"
+        className=""
       />
+    </Button>
+
+    {error&&(<Alert  className="max-w-md" variant={"destructive"}>
+      <AlertTitle>
+        Submission error
+      </AlertTitle>
+      <AlertDescription>
+        An unknown erro has occured. Wait as we resolve the issue
+      </AlertDescription>
+      <AlertAction>
+        <Button variant="outline">
+          <a href={window.location.href}>Refresh</a>
+        </Button>
+      </AlertAction>
+    </Alert>)}
     </div>
   </form>
 
-   <div className="m-3">
-    <div className="bg-yellow-200/50 p-3 rounded-xl shadow-xl">
-   <h2 className="font-bold">Upload results</h2>
-  <Upload  />
- </div>
-    <div  className="m-4 bg-orange-200/70 p-6 rounded-lg text-lg shadow-xl">
-    <h1 className="font-bold">Download template for exam results upload</h1>
-  <Template />
-  </div>
+   
+  <Card className="my-2">
+    
+    <CardHeader>
+      <CardTitle>
+        <h2>Upload results</h2>
+      </CardTitle>
+      <CardDescription>
+        <p>Upload Results here</p>
+      </CardDescription>
+    </CardHeader>
+  <CardContent><Upload  /></CardContent>
   
+  </Card>
+  <Card className="my-2">
+    
+    <CardHeader>
+      <CardTitle>
+        <h1>Template</h1>
+      </CardTitle>
+      <CardDescription>
+        <p>Download template for exam results upload</p>
+      </CardDescription>
+    </CardHeader>
+  <CardContent><Template /></CardContent>
+  
+  </Card>
+ </CardContent>
  
-  </div>
-</section>
+  
+
+  
+</Card>
 
 );
 

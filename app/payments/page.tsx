@@ -1,5 +1,15 @@
 'use client';
-
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Pay(){
 async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
@@ -15,9 +25,25 @@ async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
 
 
 }
-return (<div className="bg-green-900/20  bg-cover m-4">
-    <h1 className="text-center text-xg font-bold p-6">Donate</h1>
-<form className="mx-auto p-4  w-64 " onSubmit={handleSubmit}>
+return (
+       <Card className="relative mx-auto w-full max-w-sm pt-0">
+      <div className="absolute inset-0 z-30 aspect-video " />
+      <img
+        src="https://llywftzbmhpxnsewxdxf.supabase.co/storage/v1/object/public/Data%20center/xinying-lin-QvFzcFwLjYo-unsplash.jpg"
+        alt="Event cover"
+        className="relative aspect-video w-full object-cover"
+      />
+     
+    <CardHeader>  
+        <CardTitle>Donate</CardTitle>
+         <CardDescription>
+          Feel free to send me something
+        </CardDescription>
+        </CardHeader>
+    <CardContent>
+        <div className="">
+   
+<form className=" " onSubmit={handleSubmit}>
     <div className="">
         <label htmlFor="email">Email</label>
         <input className="outline-1  p-4 m-6 bg-white" type="email" required id="email" name="email" />
@@ -26,9 +52,15 @@ return (<div className="bg-green-900/20  bg-cover m-4">
         <label htmlFor="amount">Amount</label>
         <input type="number" required name="amount" id="amount"  className="outline-1 bg-white p-4 m-6"/>
     </div>
-    <div>
-        <input className="bg-black text-white rounded-lg m-4 p-4" type="submit" value={`Donate`} />
-    </div>
+    
+     <CardAction>
+          <Button variant="link"><input className="bg-black text-white rounded-lg m-4 p-4" type="submit" value={`Donate`} /></Button>
+        </CardAction>
 </form>
-</div>);
+</div>
+        </CardContent>
+         <CardFooter>
+    <p>Thank you for your contribution</p>
+  </CardFooter>
+</Card>);
 }
